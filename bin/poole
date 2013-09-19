@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'mr_poole'
+
+p = MrPoole::Tasks.new
+
+if ARGV[0] == 'post'
+  p.post(ARGV[1])
+elsif ARGV[0] == 'draft'
+  p.draft(ARGV[1])
+else
+  p.usage
+end
