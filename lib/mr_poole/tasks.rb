@@ -56,55 +56,47 @@ module MrPoole
       f = File.open(path, "w").write(head)
     end
 
+    # Todo make this take a path instead?
+    def publish(slug)
+      usage if slug.nil?
+
+      inpath = File.join(DRAFTS_FOLDER, "#{slug}.md")
+      infile = File.open(inpath, "r")
+
+      date = @helper.get_date_stamp
+      time = @helper.get_time_stamp
+
+      outpath = File.join(POSTS_FOLDER, "#{date}-#{slug}.md")
+      outfile = File.open(outpath, "w")
+
+      infile.each_line do |line|
+        l = line.sub(/^date:\s*$/, "date: #{date} #{get_time}\n")
+        outfile.write(l)
+      end
+
+      infile.close
+      outfile.close
+      FileUtils.rm(inpath)
+    end
+
+    def unpublish(inpath)
+      usage if inpath.nil?
+
+      slug = inpath.sub(/.*?\d{4}-\d{2}-\d{2}-(.*)/, '\1')
+      outpath = File.join(DRAFTS_FOLDER, slug)
+
+      infile = File.open(inpath, "r")
+      outfile = File.open(outpath, "w")
+
+      infile.each_line do |line|
+        l = line.sub(/^date:\s*.*$/, "date:")
+        outfile.write(l)
+      end
+
+      infile.close
+      outfile.close
+      FileUtils.rm(inpath)
+    end
 
   end
 end
-
-=begin
-
-# Generate a new draft
-
-def publish(slug)
-  usage if slug.nil?
-
-  inpath = "#{DRAFTS_FOLDER}/#{slug}.md"
-  infile = File.open(inpath, "r")
-
-  date = get_date
-  outpath = "#{POSTS_FOLDER}/#{date}-#{slug}.md"
-  outfile = File.open(outpath, "w")
-
-  infile.each_line do |line|
-    l = line.sub(/^date:\s*$/, "date: #{date} #{get_time}\n")
-    outfile.write(l)
-  end
-
-  infile.close
-  outfile.close
-  FileUtils.rm(inpath)
-end
-
-def unpublish(inpath)
-  usage if inpath.nil?
-
-  outpath = "#{DRAFTS_FOLDER}/" << inpath.sub(/.*?\d{4}-\d{2}-\d{2}-(.*)/, '\1')
-  infile = File.open(inpath, "r")
-  outfile = File.open(outpath, "w")
-
-  infile.each_line do |line|
-    l = line.sub(/^date:\s*.*$/, "date:")
-    outfile.write(l)
-  end
-
-  infile.close
-  outfile.close
-  FileUtils.rm(inpath)
-end
-
-def usage
-  exit
-end
-
-parse_opts()
-
-=end
