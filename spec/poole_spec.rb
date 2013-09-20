@@ -10,11 +10,13 @@ module MrPoole
     context 'no jekyll directory' do
       before :all do
         # make a directory to work in
+        @olddir = Dir.pwd()
         @dir = Dir.mktmpdir('nojekyll')
         Dir.chdir(@dir)
       end
 
       after :all do
+        Dir.chdir(@olddir)
         FileUtils.rm_rf(@dir)
       end
 
@@ -30,20 +32,22 @@ module MrPoole
       before :each do
         # make a directory to work in
         @olddir = Dir.pwd()
-        #puts "---#{@olddir}"
         @dir = Dir.mktmpdir('jekyll')
-        #posts = File.join(@dir, '_posts')
-        #Dir.mkdir(posts)
-        #Dir.chdir(@dir)
+        posts = File.join(@dir, '_posts')
+        Dir.mkdir(posts)
+        Dir.chdir(@dir)
       end
 
       after :each do
-        #Dir.chdir(@olddir)             # change out of dir before removing it
-        Dir.chdir()
+        Dir.chdir(@olddir)
         FileUtils.rm_rf(@dir)
       end
 
       it "should not exit with _posts directory" do
+        argv = []
+        lambda {
+          cli = CLI.new(argv)
+        }.should_not raise_error
       end
 
     end   # end context 'in jekyll'
