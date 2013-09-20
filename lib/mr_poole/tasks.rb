@@ -8,28 +8,11 @@ module MrPoole
 
     def initialize
       @helper = Helper.new
-      @helper.ensure_jekyll_dir
-
       @default_layout = @helper.get_default_layout
-    end
-
-    # Print a usage message and exit
-    def usage
-      puts 'Usage:'
-      puts '  poole [ACTION] [ARG]'
-      puts ''
-      puts 'Actions:'
-      puts '  draft      [SLUG]    Create a new draft in _drafts with title SLUG'
-      puts '  post       [SLUG]    Create a new timestamped post in _posts with title SLUG'
-      puts '  publish    [SLUG]    Publish the draft with SLUG, timestamping appropriately'
-      puts '  unpublish  [PATH]    Move a post to _drafts, untimestampinging appropriately'
-      exit
     end
 
     # Generate a timestamped post
     def post(title, slug=nil)
-      usage if title.nil?
-
       slug ||= @helper.get_slug_for(title)
       date = @helper.get_date_stamp
 
@@ -58,7 +41,7 @@ module MrPoole
 
     # Todo make this take a path instead?
     def publish(slug)
-      usage if slug.nil?
+      @helper.publish_usage if slug.nil?
 
       inpath = File.join(DRAFTS_FOLDER, "#{slug}.md")
       infile = File.open(inpath, "r")
@@ -80,7 +63,7 @@ module MrPoole
     end
 
     def unpublish(inpath)
-      usage if inpath.nil?
+      @helper.unpublish_usage if inpath.nil?
 
       slug = inpath.sub(/.*?\d{4}-\d{2}-\d{2}-(.*)/, '\1')
       outpath = File.join(DRAFTS_FOLDER, slug)
