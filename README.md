@@ -1,12 +1,12 @@
-# Foo
+# Mr. Poole
 
-TODO: Write a gem description
+A butler for Jekyll.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'foo'
+    gem 'mr_poole'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install foo
+    $ gem install mr_poole
 
 ## Usage
 

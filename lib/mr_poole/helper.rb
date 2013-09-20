@@ -47,6 +47,31 @@ module MrPoole
       Time.now.strftime("%H:%M")
     end
 
-  end
+    # Print a usage message and exit
+    def gen_usage
+      puts 'Usage:'
+      puts '  poole [ACTION] [ARG]'
+      puts ''
+      puts 'Actions:'
+      puts '  draft      Create a new draft in _drafts with title SLUG'
+      puts '  post       Create a new timestamped post in _posts with title SLUG'
+      puts '  publish    Publish the draft with SLUG, timestamping appropriately'
+      puts '  unpublish  Move a post to _drafts, untimestamping appropriately'
+      exit
+    end
 
+    def post_usage
+      puts 'Usage:'
+      puts '  poole post [OPTION] [ARG] TITLE'
+      puts ''
+      puts 'Options:'
+      puts '  --slug    Define a custom slug for post, used for generated file name'
+      puts '            (also available with -s)'
+      puts '  --title   Define a title for post (also available with -t)'
+      puts '            This option may be omitted provided that TITLE is given as'
+      puts '            the last argument to poole'
+      exit
+    end
+
+  end
 end
