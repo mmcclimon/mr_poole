@@ -107,6 +107,29 @@ module MrPoole
 
       end   # context exit message
 
+      context 'custom layout' do
+        before :each do
+          @layout_path = write_custom_layout
+        end
+
+        it 'should use custom layout with --layout' do
+          argv = ['post', '--layout', @layout_path, '--title', 'title']
+          poole_with_args_no_stdout(argv).call
+
+          fn = Dir.glob("_posts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should match(/tags: testing/)
+        end
+
+        it 'should exit with bad layout path' do
+          argv = ['post', '--layout', 'bogus_path.md', 'title']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+      end   # end custom layout
+
     end   # end describe post
 
     describe "action 'draft'" do
@@ -181,6 +204,28 @@ module MrPoole
 
       end   # context exit message
 
+      context 'custom layout' do
+        before :each do
+          @layout_path = write_custom_layout
+        end
+
+        it 'should use custom layout with --layout' do
+          argv = ['draft', '--layout', @layout_path, '--title', 'title']
+          poole_with_args_no_stdout(argv).call
+
+          fn = Dir.glob("_drafts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should match(/tags: testing/)
+        end
+
+        it 'should exit with bad layout path' do
+          argv = ['draft', '--layout', 'bogus_path.md', 'title']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+      end   # end custom layout
     end   # end describe draft
 
     describe "action 'publish'" do

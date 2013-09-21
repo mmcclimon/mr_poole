@@ -22,8 +22,18 @@ publish, and unpublish.
 Generates a timestamped post in your `_posts` directory, with the format
 `YYYY-MM-DD-slug.md` (other formats to be suppored in the future). With no
 options, will generate a slug based on your title by replacing spaces with
-underscores, downcasing, and removing any special character. With option
-`--slug` (or `-s`), you can provide a custom slug.
+underscores, downcasing, and removing any special character.
+
+Options:
+
+```
+--slug (-s)     Define a custom slug for post, used for generated file name
+
+--title (-t)    Define a title for post. This option may be omitted provided
+                that TITLE is given as the last argument to poole
+
+--layout (-l)   Path to a custom layout file to use
+```
 
 Poole generates a simple file (in the future, this will be customizable) that
 looks like this:
@@ -41,8 +51,8 @@ date: (current date automatically inserted here)
     poole draft [OPTIONS] TITLE
 
 Just like `poole post`, except that it creates an untimestamped post in your
-`_drafts` directory (creating it if it doesn't exist yet). Also takes
-`--slug`/`-s` as an option. In the generated file, no date is inserted.
+`_drafts` directory (creating it if it doesn't exist yet). Uses same options
+as `post`. In the generated file, no date is inserted.
 
 ### Publish
 
@@ -98,10 +108,9 @@ them if you want to. This should get better in the future.
 
 ## To do
 
-- Configuration: custom templates, hooking into jekyll's `_config.yml`
+- Configuration: hooking into jekyll's `_config.yml`
 - Support for multiple output formats (right now, only markdown is supported)
-- Better option handling (allow custom templates, more flexible date
-  substitution)
+- Better option handling (more flexible date substitution)
 - Better documentation (this is an open source project, after all)
 
 ## Installation

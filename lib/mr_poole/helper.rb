@@ -78,6 +78,7 @@ module MrPoole
       puts '  --title   Define a title for post (also available with -t)'
       puts '            This option may be omitted provided that TITLE is given as'
       puts '            the last argument to poole'
+      puts '  --layout  Path to a custom layout file to use (also availabe with -l)'
       exit
     end
 
@@ -91,6 +92,7 @@ module MrPoole
       puts '  --title   Define a title for post (also available with -t)'
       puts '            This option may be omitted provided that TITLE is given as'
       puts '            the last argument to poole'
+      puts '  --layout  Path to a custom layout file to use (also availabe with -l)'
       exit
     end
 

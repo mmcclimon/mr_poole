@@ -66,6 +66,7 @@ module MrPoole
       options = OpenStruct.new
       options.slug = nil
       options.title = nil
+      options.layout = nil
 
       opt_parser = OptionParser.new do |opts|
         opts.on('-s', '--slug [SLUG]', "Use custom slug") do |s|
@@ -74,6 +75,10 @@ module MrPoole
 
         opts.on('-t', '--title [TITLE]', "Specifiy title") do |t|
           options.title = t
+        end
+
+        opts.on('-l', '--layout PATH', "Specify a custom layout file") do |l|
+          options.layout = l
         end
       end
 
