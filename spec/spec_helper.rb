@@ -37,3 +37,21 @@ def clean_tmp_files(tmpdir, restoredir)
   Dir.chdir(restoredir)
   FileUtils.rm_rf(tmpdir)
 end
+
+def poole_with_args(argv)
+  return Proc.new do
+    action = argv.shift
+    cli = MrPoole::CLI.new(argv)
+    cli.execute(action)
+  end
+end
+
+def poole_with_args_no_stdout(argv)
+  return Proc.new do
+    capture_stdout do
+      action = argv.shift
+      cli = MrPoole::CLI.new(argv)
+      cli.execute(action)
+    end
+  end
+end
