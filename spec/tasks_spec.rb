@@ -231,5 +231,60 @@ module MrPoole
 
     end   # end describe publish
 
+    describe "#unpublish" do
+
+      before :each do
+        @p_path = @t.post('test_post')
+      end
+
+      it 'should create a _drafts directory' do
+        @t.unpublish(@p_path)
+        Dir.exists?('_drafts').should be_true
+      end
+
+      it 'should create an untimestamped draft in the _drafts folder' do
+        @t.unpublish(@p_path)
+        fn = Dir.glob("_drafts/*.md").first
+        fn.should_not match(/#{@date_regex}/)
+      end
+
+      it 'should remove file in the _posts folder' do
+        @t.unpublish(@p_path)
+        File.exist?(@p_path).should be_false
+      end
+
+      it 'should return path to newly created draft' do
+        returned = @t.unpublish(@p_path)
+        determined = Dir.glob("_drafts/*.md").first
+        returned.should == determined
+      end
+
+      it 'should create draft with matching slug' do
+        draft = @t.unpublish(@p_path)
+
+        post_slug = @p_path.match(/#{@date_regex}-(.*)[.]md$/)[1]
+        draft_slug = File.basename(draft, '.md')
+
+        draft_slug.should == post_slug
+      end
+
+      it 'should delete timestamp in actual file' do
+        draft = @t.unpublish(@p_path)
+        content = File.open(draft, 'r').read
+        content.should match(/date:\s*\n/)
+      end
+
+      it 'should copy contents of post into draft' do
+        # first add some content to the draft
+        f = File.open(@p_path, 'a')
+        f.write("Some new content for my blog\n")
+        f.close
+
+        draft = @t.unpublish(@p_path)
+        content = File.open(draft, 'r').read
+        content.should match(/Some new content for my blog/)
+      end
+
+    end   # end describe unpublish
   end
 end

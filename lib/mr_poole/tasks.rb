@@ -76,7 +76,8 @@ module MrPoole
     end
 
     def unpublish(inpath)
-      @helper.unpublish_usage if inpath.nil?
+      # the drafts folder might not exist yet...create it just in case
+      FileUtils.mkdir_p(DRAFTS_FOLDER)
 
       slug = inpath.sub(/.*?\d{4}-\d{2}-\d{2}-(.*)/, '\1')
       outpath = File.join(DRAFTS_FOLDER, slug)
@@ -92,6 +93,8 @@ module MrPoole
       infile.close
       outfile.close
       FileUtils.rm(inpath)
+
+      outpath
     end
 
   end
