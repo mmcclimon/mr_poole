@@ -1,4 +1,5 @@
-require 'getoptlong'
+require 'optparse'
+require 'ostruct'
 
 module MrPoole
   class CLI
@@ -22,25 +23,30 @@ module MrPoole
     end
 
     def handle_post
-      opts = GetoptLong.new(
-        ['--slug', '-s', GetoptLong::REQUIRED_ARGUMENT],
-        ['--title', '-t', GetoptLong::REQUIRED_ARGUMENT],
-      )
+      options = OpenStruct.new
+      options.slug = nil
+      options.title = nil
 
-      slug = nil
-      title = nil
+      opt_parser = OptionParser.new do |opts|
+        opts.banner = 'Usage:  poole post [options]'
+        opts.separator ''
+        opts.separator "Options: "
 
-      opts.each do |opt, arg|
-        case opt
-        when '--slug' then slug = arg
-        when '--title' then title = arg
+        opts.on('-s', '--slug [SLUG]', "Use custom slug") do |s|
+          options.slug = s
+        end
+
+        opts.on('-t', '--title [TITLE]', "Specifiy title") do |t|
+          options.title = t
         end
       end
 
-      title ||= @params.first
+      opt_parser.parse! @params
 
-      @helper.post_usage unless title
-      @tasks.post(title, slug)
+      options.title ||= @params.first
+
+      @helper.post_usage unless options.title
+      @tasks.post(options.title, options.slug)
     end
 
     def handle_draft
