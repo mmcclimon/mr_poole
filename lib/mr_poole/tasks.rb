@@ -36,7 +36,8 @@ module MrPoole
       # the drafts folder might not exist yet...create it just in case
       FileUtils.mkdir_p(DRAFTS_FOLDER)
 
-      slug ||= @helper.get_slug_for(title)
+      slug ||= title
+      slug = @helper.get_slug_for(slug)
 
       head = @default_layout
       head.sub!(/^title:\s*$/, "title: #{title}")

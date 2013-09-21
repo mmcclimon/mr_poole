@@ -91,6 +91,80 @@ module MrPoole
 
     end   # end describe post
 
+    describe "#draft" do
+      context 'title only' do
+
+        it "should create a _drafts directory" do
+          @t.draft('draft post')
+          Dir.exists?('_drafts').should be_true
+        end
+
+        it "should create a new draft in the _drafts directory" do
+          @t.draft('draft post')
+          Dir.glob("_drafts/*.md").length.should == 1
+        end
+
+        it "should create a non-timestamped draft" do
+          @t.draft('draft post')
+          fn = Dir.glob("_drafts/*.md").first
+          fn.should_not match(/#{@date_regex}/)
+        end
+
+        it "should downcase and underscore title for slug" do
+          @t.draft("Test Post with Spaces")
+          fn = Dir.glob("_drafts/*.md").first
+          fn.should match(/test_post_with_spaces[.]md/)
+        end
+
+        it "should remove non-word characters for slug" do
+          @t.draft("On (function() {}()) in JavaScript")
+          fn = Dir.glob("_drafts/*.md").first
+          fn.should match(/on_function_in_javascript[.]md/)
+        end
+
+        it "should update the title in the file itself" do
+          @t.draft("Testing Draft {}")
+          fn = Dir.glob("_drafts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should match(/title: Testing Draft {}/)
+        end
+
+        it "should not update the date in the file itself" do
+          @t.draft("Date test post")
+          fn = Dir.glob("_drafts/*.md").first
+
+          # date in filename should match date in file itself
+          content = File.open(fn, 'r').read
+          content.should match(/date:\s*\n/)
+        end
+
+      end   # end context title only
+
+      context 'title and slug' do
+
+        it "should create a draft named for slug" do
+          @t.draft("Test Draft", 'unique_slug')
+          fn = Dir.glob("_drafts/*.md").first
+          fn.should match(/unique_slug[.]md$/)
+        end
+
+        it "should sub any weird characters in slug" do
+          @t.draft("Test Post with Spaces", "(stupid] {slüg/")
+          fn = Dir.glob("_drafts/*.md").first
+          fn.should match(/stupid_slg[.]md/)
+        end
+
+        it "should update the title in the file itself" do
+          @t.draft("Testing Post {}", 'shouldnt_be_in_title')
+          fn = Dir.glob("_drafts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should match(/title: Testing Post {}/)
+        end
+
+      end
+
+    end
+
 
   end
 end
