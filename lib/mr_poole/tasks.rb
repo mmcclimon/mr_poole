@@ -13,11 +13,11 @@ module MrPoole
     end
 
     # Generate a timestamped post
-    def post(title, slug=nil)
-      slug ||= title
+    def post(title, slug='')
       date = @helper.get_date_stamp
 
       # still want to escape any garbage in the slug
+      slug = title if slug.nil? || slug.empty?
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
@@ -34,11 +34,11 @@ module MrPoole
     end
 
     # Generate a non-timestamped draft
-    def draft(title, slug=nil)
+    def draft(title, slug='')
       # the drafts folder might not exist yet...create it just in case
       FileUtils.mkdir_p(DRAFTS_FOLDER)
 
-      slug ||= title
+      slug = title if slug.nil? || slug.empty?
       slug = @helper.get_slug_for(slug)
 
       head = @default_layout

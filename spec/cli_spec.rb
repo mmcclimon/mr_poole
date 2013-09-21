@@ -109,5 +109,79 @@ module MrPoole
 
     end   # end describe post
 
+    describe "action 'draft'" do
+
+      before :each do
+        @olddir, @tmpdir = make_jekyll_dir
+      end
+
+      after :each do
+        clean_tmp_files(@tmpdir, @olddir)
+      end
+
+      context 'error handling' do
+
+        it 'should fail with no arguments' do
+          argv = ['draft']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should fail with no title (with slug)' do
+          argv = ['draft', '-s', 'draft_slug']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should not fail with a title (no switch)' do
+          argv = ['draft', 'Here is a title']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.not_to raise_error
+        end
+
+        it 'should not fail with a title (long switch)' do
+          argv = ['draft', '--title', 'Here is a title']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.not_to raise_error
+        end
+
+        it 'should not fail with a title (short switch)' do
+          argv = ['draft', '-t', 'Here is a title']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.not_to raise_error
+        end
+
+      end   # context error handling
+
+      context 'exit message' do
+
+        it 'should exit with a usage message' do
+          argv = ['draft']
+
+          output = capture_stdout do
+            begin
+              poole_with_args(argv).call
+            rescue SystemExit
+              # this will fail, but we want the exit message
+            end
+          end
+
+          output.should match(/Usage:\s+poole draft/)
+        end
+
+      end   # context exit message
+
+    end   # end describe draft
+
   end
 end

@@ -73,5 +73,18 @@ module MrPoole
       exit
     end
 
+    def draft_usage
+      puts 'Usage:'
+      puts '  poole draft [OPTION] [ARG] TITLE'
+      puts ''
+      puts 'Options:'
+      puts '  --slug    Define a custom slug for post, used for generated file name'
+      puts '            (also available with -s)'
+      puts '  --title   Define a title for post (also available with -t)'
+      puts '            This option may be omitted provided that TITLE is given as'
+      puts '            the last argument to poole'
+      exit
+    end
+
   end
 end

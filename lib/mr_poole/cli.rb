@@ -23,15 +23,35 @@ module MrPoole
     end
 
     def handle_post
+      options = do_creation_options
+      options.title ||= @params.first
+
+      @helper.post_usage unless options.title
+      @tasks.post(options.title, options.slug)
+    end
+
+    def handle_draft
+      options = do_creation_options
+      options.title ||= @params.first
+
+      @helper.draft_usage unless options.title
+      @tasks.draft(options.title, options.slug)
+    end
+
+    def handle_publish
+
+    end
+
+    def handle_unpublish
+
+    end
+
+    def do_creation_options
       options = OpenStruct.new
       options.slug = nil
       options.title = nil
 
       opt_parser = OptionParser.new do |opts|
-        opts.banner = 'Usage:  poole post [options]'
-        opts.separator ''
-        opts.separator "Options: "
-
         opts.on('-s', '--slug [SLUG]', "Use custom slug") do |s|
           options.slug = s
         end
@@ -42,23 +62,7 @@ module MrPoole
       end
 
       opt_parser.parse! @params
-
-      options.title ||= @params.first
-
-      @helper.post_usage unless options.title
-      @tasks.post(options.title, options.slug)
-    end
-
-    def handle_draft
-
-    end
-
-    def handle_publish
-
-    end
-
-    def handle_unpublish
-
+      options
     end
 
   end
