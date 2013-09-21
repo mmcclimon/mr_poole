@@ -29,6 +29,12 @@ module MrPoole
           fn.should match(/#{@date_regex}-test_post[.]md$/)
         end
 
+        it "should return path to the newly created post" do
+          returned = @t.post("test_post")
+          determined = Dir.glob("_posts/*.md").first
+          returned.should == determined
+        end
+
         it "should downcase a title" do
           @t.post("Test_Post_With_Uppercase")
           fn = Dir.glob("_posts/*.md").first
@@ -104,6 +110,12 @@ module MrPoole
           Dir.glob("_drafts/*.md").length.should == 1
         end
 
+        it "should return path to the newly created draft" do
+          returned = @t.draft("test_draft")
+          determined = Dir.glob("_drafts/*.md").first
+          returned.should == determined
+        end
+
         it "should create a non-timestamped draft" do
           @t.draft('draft post')
           fn = Dir.glob("_drafts/*.md").first
@@ -161,9 +173,9 @@ module MrPoole
           content.should match(/title: Testing Post {}/)
         end
 
-      end
+      end   # end context title & slug
 
-    end
+    end   # end describe draft
 
 
   end

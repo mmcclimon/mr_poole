@@ -29,6 +29,8 @@ module MrPoole
       f = File.open(path, "w")
       f.write(head)
       f.close
+
+      path    # return the path, in case we want to do anything useful
     end
 
     # Generate a non-timestamped draft
@@ -46,6 +48,8 @@ module MrPoole
       f = File.open(path, "w")
       f.write(head)
       f.close
+
+      path    # return the path, in case we want to do anything useful
     end
 
     # Todo make this take a path instead?
