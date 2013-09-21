@@ -8,9 +8,18 @@ Gem::Specification.new do |spec|
   spec.version       = MrPoole::VERSION
   spec.authors       = ["Michael McClimon"]
   spec.email         = ["michael@mcclimon.org"]
-  spec.description   = %q{Helper for Jekyll}
-  spec.summary       = %q{Does stuff for Jekyll}
-  spec.homepage      = ""
+  spec.description   = %q{A butler for Jekyll, provides interface for creating posts/drafts}
+  spec.summary       = <<-EOF
+    A butler for Jekyll. Provides a command-line interface (called `poole`) for
+    creating and publishing posts and drafts for Jekyll (http://jekyllrb.com)
+    blogs.
+
+    The literary Mr. Poole is Jekyll's butler, who "serves Jekyll faithfully, and
+    attempts to do a good job and be loyal to his master"
+    (http://en.wikipedia.org/wiki/Jekyll_and_hyde#Mr._Poole), and the
+    Mr. Poole gem looks to be the same thing.
+  EOF
+  spec.homepage      = "http://github.com/mmcclimon/mr_poole"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
