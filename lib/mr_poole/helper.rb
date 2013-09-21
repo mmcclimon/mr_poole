@@ -15,22 +15,25 @@ module MrPoole
       end
     end
 
-    # Configure the default layout.
-    #
-    # If a user has $HOME/.poole_default_layout, will use the contents of
-    # that file, otherwise will use a simple template
-    def get_default_layout
-      config_path = File.join(Dir.home, '.poole_default_layout')
+    # Get a layout as a string. If layout_path is non-nil,  will open that
+    # file and read it, otherwise will return a default one
+    def get_layout(layout_path)
 
-      if File.exists?(config_path)
-        return File.open(config_path, 'r').read
+      if layout_path.nil?
+        contents  = "---\n"
+        contents << "title:\n"
+        contents << "layout: post\n"
+        contents << "date:\n"
+        contents << "---\n"
       else
-        s  = "---\n"
-        s << "title:\n"
-        s << "layout: post\n"
-        s << "date:\n"
-        s << "---\n"
+        begin
+          contents = File.open(layout_path, "r").read()
+        rescue Errno::ENOENT
+          bad_path(layout_path)
+        end
       end
+
+      contents
     end
 
     # Given a post title (mixed case, spaces, etc.), generates a slug for

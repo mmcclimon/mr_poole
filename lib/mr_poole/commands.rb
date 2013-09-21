@@ -9,7 +9,6 @@ module MrPoole
 
     def initialize
       @helper = Helper.new
-      @default_layout = @helper.get_default_layout
     end
 
     # Generate a timestamped post
@@ -25,7 +24,7 @@ module MrPoole
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
-      head = @default_layout
+      head = @helper.get_layout(opts[:layout])
       head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
       head.sub!(/^date:\s*$/, "date: #{date}")
 
@@ -49,7 +48,8 @@ module MrPoole
              end
       slug = @helper.get_slug_for(slug)
 
-      head = @default_layout
+      # put the metadata into the layout header
+      head = @helper.get_layout(opts[:layout])
       head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
 
       path = File.join(DRAFTS_FOLDER, "#{slug}.md")

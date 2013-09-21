@@ -55,3 +55,17 @@ def poole_with_args_no_stdout(argv)
     end
   end
 end
+
+def write_custom_layout
+  filename = 'custom_layout.md'
+  f = File.open(filename, 'w')
+  f.puts '---'
+  f.puts 'title:'
+  f.puts 'date:'
+  f.puts 'tags: testing'
+  f.puts '---'
+  f.puts ''
+  f.close
+
+  filename
+end

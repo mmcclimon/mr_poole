@@ -98,6 +98,33 @@ module MrPoole
 
       end   # end context title & slug
 
+      context 'with custom layout' do
+        before :each do
+          @layout_path = write_custom_layout
+        end
+
+        it "should exit if layout path doesn't exist" do
+          expect {
+            @c.post({title: 'test_post', layout: 'bogus_path.md'})
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should not use the default layout' do
+          @c.post({title: 'test_post', layout: @layout_path})
+          fn = Dir.glob("_posts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should_not match(/layout: post/)
+        end
+
+        it 'should use the custom layout' do
+          @c.post({title: 'test_post', layout: @layout_path})
+          fn = Dir.glob("_posts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should match(/tags: testing/)
+        end
+
+      end   # context custom layout
+
     end   # end describe post
 
     describe "#draft" do
@@ -177,6 +204,33 @@ module MrPoole
         end
 
       end   # end context title & slug
+
+      context 'with custom layout' do
+        before :each do
+          @layout_path = write_custom_layout
+        end
+
+        it "should exit if layout path doesn't exist" do
+          expect {
+            @c.draft({title: 'test_post', layout: 'bogus_path.md'})
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should not use the default layout' do
+          @c.draft({title: 'test_post', layout: @layout_path})
+          fn = Dir.glob("_drafts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should_not match(/layout: post/)
+        end
+
+        it 'should use the custom layout' do
+          @c.draft({title: 'test_post', layout: @layout_path})
+          fn = Dir.glob("_drafts/*.md").first
+          content = File.open(fn, 'r').read
+          content.should match(/tags: testing/)
+        end
+
+      end   # context custom layout
 
     end   # end describe draft
 
