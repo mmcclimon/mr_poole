@@ -47,6 +47,11 @@ module MrPoole
       Time.now.strftime("%H:%M")
     end
 
+    def bad_path(path)
+      puts "Error: could not open #{path}"
+      exit
+    end
+
     # Print a usage message and exit
     def gen_usage
       puts 'Usage:'
@@ -83,6 +88,24 @@ module MrPoole
       puts '  --title   Define a title for post (also available with -t)'
       puts '            This option may be omitted provided that TITLE is given as'
       puts '            the last argument to poole'
+      exit
+    end
+
+    def publish_usage
+      puts 'Usage:'
+      puts '  poole publish PATH_TO_DRAFT'
+      puts ''
+      puts 'Options:'
+      puts '  (coming soon)'
+      exit
+    end
+
+    def unpublish_usage
+      puts 'Usage:'
+      puts '  poole unpublish PATH_TO_POST'
+      puts ''
+      puts 'Options:'
+      puts '  (coming soon)'
       exit
     end
 

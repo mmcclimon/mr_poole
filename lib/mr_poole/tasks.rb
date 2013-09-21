@@ -55,7 +55,12 @@ module MrPoole
     # Todo make this take a path instead?
     def publish(draftpath)
       slug = File.basename(draftpath, '.md')
-      infile = File.open(draftpath, "r")
+
+      begin
+        infile = File.open(draftpath, "r")
+      rescue Errno::ENOENT
+        @helper.bad_path(draftpath)
+      end
 
       date = @helper.get_date_stamp
       time = @helper.get_time_stamp
@@ -79,10 +84,14 @@ module MrPoole
       # the drafts folder might not exist yet...create it just in case
       FileUtils.mkdir_p(DRAFTS_FOLDER)
 
+      begin
+        infile = File.open(inpath, "r")
+      rescue Errno::ENOENT
+        @helper.bad_path(inpath)
+      end
+
       slug = inpath.sub(/.*?\d{4}-\d{2}-\d{2}-(.*)/, '\1')
       outpath = File.join(DRAFTS_FOLDER, slug)
-
-      infile = File.open(inpath, "r")
       outfile = File.open(outpath, "w")
 
       infile.each_line do |line|

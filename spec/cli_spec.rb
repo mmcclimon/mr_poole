@@ -183,5 +183,146 @@ module MrPoole
 
     end   # end describe draft
 
+    describe "action 'publish'" do
+      before :each do
+        @olddir, @tmpdir = make_jekyll_dir
+        @t = Tasks.new
+        @d_path = @t.draft('test_draft')
+      end
+
+      after :each do
+        clean_tmp_files(@tmpdir, @olddir)
+      end
+
+      context 'error handling' do
+
+        it 'should fail with no arguments' do
+          argv = ['publish']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should fail with a bad path' do
+          argv = ['publish', '_drafts/does_not_exist.md']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should not fail with a good path' do
+          argv = ['publish', @d_path]
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.not_to raise_error
+        end
+
+      end   # context error handling
+
+      context 'exit message' do
+
+        it 'should exit with usage with no arguments' do
+          argv = ['publish']
+
+          output = capture_stdout do
+            begin
+              poole_with_args(argv).call
+            rescue SystemExit
+            end
+          end
+
+          output.should match(/Usage:\s+poole publish/)
+        end
+
+        it 'should exit with a description of bad path' do
+          argv = ['publish', '_drafts/does_not_exist.md']
+
+          output = capture_stdout do
+            begin
+              poole_with_args(argv).call
+            rescue SystemExit
+            end
+          end
+
+          output.should match(/Error:\s+could not open/)
+        end
+      end   # context exit message
+
+    end
+
+    describe "action 'unpublish'" do
+      before :each do
+        @olddir, @tmpdir = make_jekyll_dir
+        @t = Tasks.new
+        @p_path = @t.post('test_post')
+      end
+
+      after :each do
+        clean_tmp_files(@tmpdir, @olddir)
+      end
+
+      context 'error handling' do
+
+        it 'should fail with no arguments' do
+          argv = ['unpublish']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should fail with a bad path' do
+          argv = ['unpublish', '_posts/does_not_exist.md']
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.to raise_error(SystemExit)
+        end
+
+        it 'should not fail with a good path' do
+          argv = ['unpublish', @p_path]
+
+          expect {
+            poole_with_args_no_stdout(argv).call
+          }.not_to raise_error
+        end
+
+      end   # context error handling
+
+      context 'exit message' do
+
+        it 'should exit with usage with no arguments' do
+          argv = ['unpublish']
+
+          output = capture_stdout do
+            begin
+              poole_with_args(argv).call
+            rescue SystemExit
+            end
+          end
+
+          output.should match(/Usage:\s+poole unpublish/)
+        end
+
+        it 'should exit with a description of bad path' do
+          argv = ['unpublish', '_posts/does_not_exist.md']
+
+          output = capture_stdout do
+            begin
+              poole_with_args(argv).call
+            rescue SystemExit
+            end
+          end
+
+          output.should match(/Error:\s+could not open/)
+        end
+      end   # context exit message
+
+
+    end   # action unpublish
+
   end
 end

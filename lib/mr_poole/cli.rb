@@ -39,11 +39,27 @@ module MrPoole
     end
 
     def handle_publish
+      options = OpenStruct.new
+      opt_parser = OptionParser.new do |opts|
+        # eventually there will be options...not yet
+      end
+      opt_parser.parse! @params
 
+      path = @params.first
+      @helper.publish_usage unless path
+      @tasks.publish(path)
     end
 
     def handle_unpublish
+      options = OpenStruct.new
+      opt_parser = OptionParser.new do |opts|
+        # eventually there will be options...not yet
+      end
+      opt_parser.parse! @params
 
+      path = @params.first
+      @helper.unpublish_usage unless path
+      @tasks.unpublish(path)
     end
 
     def do_creation_options
