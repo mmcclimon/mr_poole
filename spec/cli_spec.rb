@@ -186,8 +186,8 @@ module MrPoole
     describe "action 'publish'" do
       before :each do
         @olddir, @tmpdir = make_jekyll_dir
-        @t = Tasks.new
-        @d_path = @t.draft('test_draft')
+        @c = Commands.new
+        @d_path = @c.draft('test_draft')
       end
 
       after :each do
@@ -256,8 +256,8 @@ module MrPoole
     describe "action 'unpublish'" do
       before :each do
         @olddir, @tmpdir = make_jekyll_dir
-        @t = Tasks.new
-        @p_path = @t.post('test_post')
+        @c = Commands.new
+        @p_path = @c.post('test_post')
       end
 
       after :each do

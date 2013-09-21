@@ -2,7 +2,7 @@ require 'fileutils'
 require 'shellwords'
 
 module MrPoole
-  class Tasks
+  class Commands
 
     POSTS_FOLDER = '_posts'
     DRAFTS_FOLDER = '_drafts'

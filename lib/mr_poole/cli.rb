@@ -9,7 +9,7 @@ module MrPoole
       @helper.ensure_jekyll_dir
 
       @params = args
-      @tasks = Tasks.new
+      @commands = Commands.new
     end
 
     def execute(action)
@@ -27,7 +27,7 @@ module MrPoole
       options.title ||= @params.first
 
       @helper.post_usage unless options.title
-      @tasks.post(options.title, options.slug)
+      @commands.post(options.title, options.slug)
     end
 
     def handle_draft
@@ -35,7 +35,7 @@ module MrPoole
       options.title ||= @params.first
 
       @helper.draft_usage unless options.title
-      @tasks.draft(options.title, options.slug)
+      @commands.draft(options.title, options.slug)
     end
 
     def handle_publish
@@ -47,7 +47,7 @@ module MrPoole
 
       path = @params.first
       @helper.publish_usage unless path
-      @tasks.publish(path)
+      @commands.publish(path)
     end
 
     def handle_unpublish
@@ -59,7 +59,7 @@ module MrPoole
 
       path = @params.first
       @helper.unpublish_usage unless path
-      @tasks.unpublish(path)
+      @commands.unpublish(path)
     end
 
     def do_creation_options
