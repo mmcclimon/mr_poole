@@ -5,10 +5,13 @@ require 'mr_poole'
 module MrPoole
   describe Tasks do
 
-    before :each do
-      @olddir, @tmpdir = make_jekyll_dir
-      @t = Tasks.new
+    before :all do
       @date_regex = %r{\d{4}-\d{2}-\d{2}}
+    end
+
+    before :each do
+      @t = Tasks.new
+      @olddir, @tmpdir = make_jekyll_dir
     end
 
     after :each do
@@ -177,6 +180,56 @@ module MrPoole
 
     end   # end describe draft
 
+    describe "#publish" do
+
+      before :each do
+        @d_path = @t.draft('test_draft')
+      end
+
+      it 'should create a timestamped post in the _posts folder' do
+        @t.publish(@d_path)
+        fn = Dir.glob("_posts/*.md").first
+        fn.should match(/#{@date_regex}-test_draft[.]md$/)
+      end
+
+      it 'should remove file in the _drafts folder' do
+        @t.publish(@d_path)
+        File.exist?(@d_path).should be_false
+      end
+
+      it 'should return path to newly created post' do
+        returned = @t.publish(@d_path)
+        determined = Dir.glob("_posts/*.md").first
+        returned.should == determined
+      end
+
+      it 'should create post with matching slug' do
+        post = @t.publish(@d_path)
+
+        draft_slug = File.basename(@d_path, '.md')
+        post_slug = post.match(/#{@date_regex}-(.*)[.]md/)[1]
+
+        post_slug.should == draft_slug
+      end
+
+      it 'should update timestamp in actual file' do
+        post = @t.publish(@d_path)
+        content = File.open(post, 'r').read
+        content.should match(/date: #{@date_regex} \d{2}:\d{2}\n/)
+      end
+
+      it 'should copy contents of draft into post' do
+        # first add some content to the draft
+        f = File.open(@d_path, 'a')
+        f.write("Some new content for my blog\n")
+        f.close
+
+        post = @t.publish(@d_path)
+        content = File.open(post, 'r').read
+        content.should match(/Some new content for my blog/)
+      end
+
+    end   # end describe publish
 
   end
 end

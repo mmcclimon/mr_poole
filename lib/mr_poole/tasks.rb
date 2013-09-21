@@ -53,11 +53,9 @@ module MrPoole
     end
 
     # Todo make this take a path instead?
-    def publish(slug)
-      @helper.publish_usage if slug.nil?
-
-      inpath = File.join(DRAFTS_FOLDER, "#{slug}.md")
-      infile = File.open(inpath, "r")
+    def publish(draftpath)
+      slug = File.basename(draftpath, '.md')
+      infile = File.open(draftpath, "r")
 
       date = @helper.get_date_stamp
       time = @helper.get_time_stamp
@@ -66,13 +64,15 @@ module MrPoole
       outfile = File.open(outpath, "w")
 
       infile.each_line do |line|
-        l = line.sub(/^date:\s*$/, "date: #{date} #{get_time}\n")
+        l = line.sub(/^date:\s*$/, "date: #{date} #{time}\n")
         outfile.write(l)
       end
 
       infile.close
       outfile.close
-      FileUtils.rm(inpath)
+      FileUtils.rm(draftpath)
+
+      outpath
     end
 
     def unpublish(inpath)
