@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'shellwords'
 
 module MrPoole
   class Tasks
@@ -13,8 +14,11 @@ module MrPoole
 
     # Generate a timestamped post
     def post(title, slug=nil)
-      slug ||= @helper.get_slug_for(title)
+      slug ||= title
       date = @helper.get_date_stamp
+
+      # still want to escape any garbage in the slug
+      slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
       head = @default_layout
@@ -22,7 +26,9 @@ module MrPoole
       head.sub!(/^date:\s*$/, "date: #{date}")
 
       path = File.join(POSTS_FOLDER, "#{date}-#{slug}.md")
-      f = File.open(path, "w").write(head)
+      f = File.open(path, "w")
+      f.write(head)
+      f.close
     end
 
     # Generate a non-timestamped draft
@@ -36,7 +42,9 @@ module MrPoole
       head.sub!(/^title:\s*$/, "title: #{title}")
 
       path = File.join(DRAFTS_FOLDER, "#{slug}.md")
-      f = File.open(path, "w").write(head)
+      f = File.open(path, "w")
+      f.write(head)
+      f.close
     end
 
     # Todo make this take a path instead?
