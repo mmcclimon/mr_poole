@@ -22,49 +22,49 @@ module MrPoole
       context 'title only' do
 
         it "should create a new post in the _posts directory" do
-          @c.post("test_post")
+          @c.post({title: "test_post"})
           Dir.glob("_posts/*.md").length.should == 1
         end
 
         it "should create a timestamped post in the _posts directory" do
-          @c.post("test_post")
+          @c.post({title: "test_post" })
           fn = Dir.glob("_posts/*.md").first
           fn.should match(/#{@date_regex}-test_post[.]md$/)
         end
 
         it "should return path to the newly created post" do
-          returned = @c.post("test_post")
+          returned = @c.post({title: "test_post"})
           determined = Dir.glob("_posts/*.md").first
           returned.should == determined
         end
 
         it "should downcase a title" do
-          @c.post("Test_Post_With_Uppercase")
+          @c.post({title: "Test_Post_With_Uppercase"})
           fn = Dir.glob("_posts/*.md").first
           fn.should match(/#{@date_regex}-test_post_with_uppercase[.]md/)
         end
 
         it "should sub underscores for spaces in title" do
-          @c.post("Test Post with Spaces")
+          @c.post({title: "Test Post with Spaces"})
           fn = Dir.glob("_posts/*.md").first
           fn.should match(/#{@date_regex}-test_post_with_spaces[.]md/)
         end
 
         it "should remove non-word characters for slug" do
-          @c.post("On (function() {}()) in JavaScript")
+          @c.post({title: "On (function() {}()) in JavaScript"})
           fn = Dir.glob("_posts/*.md").first
           fn.should match(/#{@date_regex}-on_function_in_javascript[.]md/)
         end
 
         it "should update the title in the file itself" do
-          @c.post("Testing Post {}")
+          @c.post({title: "Testing Post {}"})
           fn = Dir.glob("_posts/*.md").first
           content = File.open(fn, 'r').read
           content.should match(/title: Testing Post {}/)
         end
 
         it "should update the date in the file itself" do
-          @c.post("Date test post")
+          @c.post({title: "Date test post"})
           fn = Dir.glob("_posts/*.md").first
 
           # date in filename should match date in file itself
@@ -78,19 +78,19 @@ module MrPoole
       context 'title and slug' do
 
         it "should create a post named for slug" do
-          @c.post("Test Post", 'unique_slug')
+          @c.post({title: "Test Post", slug: 'unique_slug'})
           fn = Dir.glob("_posts/*.md").first
           fn.should match(/#{@date_regex}-unique_slug[.]md$/)
         end
 
         it "should sub any weird characters in slug" do
-          @c.post("Test Post with Spaces", "(stupid] {slüg/")
+          @c.post({title: "Test Post with Spaces", slug: "(stupid] {slüg/"})
           fn = Dir.glob("_posts/*.md").first
           fn.should match(/#{@date_regex}-stupid_slg[.]md/)
         end
 
         it "should update the title in the file itself" do
-          @c.post("Testing Post {}", 'shouldnt_be_in_title')
+          @c.post({title: "Testing Post {}", slug: 'shouldnt_be_in_title'})
           fn = Dir.glob("_posts/*.md").first
           content = File.open(fn, 'r').read
           content.should match(/title: Testing Post {}/)
@@ -104,48 +104,48 @@ module MrPoole
       context 'title only' do
 
         it "should create a _drafts directory" do
-          @c.draft('draft post')
+          @c.draft({title: 'draft post'})
           Dir.exists?('_drafts').should be_true
         end
 
         it "should create a new draft in the _drafts directory" do
-          @c.draft('draft post')
+          @c.draft({title: 'draft post'})
           Dir.glob("_drafts/*.md").length.should == 1
         end
 
         it "should return path to the newly created draft" do
-          returned = @c.draft("test_draft")
+          returned = @c.draft({title: "test_draft"})
           determined = Dir.glob("_drafts/*.md").first
           returned.should == determined
         end
 
         it "should create a non-timestamped draft" do
-          @c.draft('draft post')
+          @c.draft({title: 'draft post'})
           fn = Dir.glob("_drafts/*.md").first
           fn.should_not match(/#{@date_regex}/)
         end
 
         it "should downcase and underscore title for slug" do
-          @c.draft("Test Post with Spaces")
+          @c.draft({title: "Test Post with Spaces"})
           fn = Dir.glob("_drafts/*.md").first
           fn.should match(/test_post_with_spaces[.]md/)
         end
 
         it "should remove non-word characters for slug" do
-          @c.draft("On (function() {}()) in JavaScript")
+          @c.draft({title: "On (function() {}()) in JavaScript"})
           fn = Dir.glob("_drafts/*.md").first
           fn.should match(/on_function_in_javascript[.]md/)
         end
 
         it "should update the title in the file itself" do
-          @c.draft("Testing Draft {}")
+          @c.draft({title: "Testing Draft {}"})
           fn = Dir.glob("_drafts/*.md").first
           content = File.open(fn, 'r').read
           content.should match(/title: Testing Draft {}/)
         end
 
         it "should not update the date in the file itself" do
-          @c.draft("Date test post")
+          @c.draft({title: "Date test post"})
           fn = Dir.glob("_drafts/*.md").first
 
           # date in filename should match date in file itself
@@ -158,19 +158,19 @@ module MrPoole
       context 'title and slug' do
 
         it "should create a draft named for slug" do
-          @c.draft("Test Draft", 'unique_slug')
+          @c.draft({title: "Test Draft", slug: 'unique_slug'})
           fn = Dir.glob("_drafts/*.md").first
           fn.should match(/unique_slug[.]md$/)
         end
 
         it "should sub any weird characters in slug" do
-          @c.draft("Test Post with Spaces", "(stupid] {slüg/")
+          @c.draft({title: "Test Post with Spaces", slug: "(stupid] {slüg/"})
           fn = Dir.glob("_drafts/*.md").first
           fn.should match(/stupid_slg[.]md/)
         end
 
         it "should update the title in the file itself" do
-          @c.draft("Testing Post {}", 'shouldnt_be_in_title')
+          @c.draft({title: "Testing Post {}", slug: 'shouldnt_be_in_title'})
           fn = Dir.glob("_drafts/*.md").first
           content = File.open(fn, 'r').read
           content.should match(/title: Testing Post {}/)
@@ -183,7 +183,7 @@ module MrPoole
     describe "#publish" do
 
       before :each do
-        @d_path = @c.draft('test_draft')
+        @d_path = @c.draft({title: 'test_draft'})
       end
 
       it 'should create a timestamped post in the _posts folder' do
@@ -234,7 +234,7 @@ module MrPoole
     describe "#unpublish" do
 
       before :each do
-        @p_path = @c.post('test_post')
+        @p_path = @c.post({title: 'test_post'})
       end
 
       it 'should create a _drafts directory' do

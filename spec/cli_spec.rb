@@ -187,7 +187,7 @@ module MrPoole
       before :each do
         @olddir, @tmpdir = make_jekyll_dir
         @c = Commands.new
-        @d_path = @c.draft('test_draft')
+        @d_path = @c.draft({title: 'test_draft'})
       end
 
       after :each do
@@ -257,7 +257,7 @@ module MrPoole
       before :each do
         @olddir, @tmpdir = make_jekyll_dir
         @c = Commands.new
-        @p_path = @c.post('test_post')
+        @p_path = @c.post({title: 'test_post'})
       end
 
       after :each do

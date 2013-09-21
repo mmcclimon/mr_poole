@@ -13,16 +13,20 @@ module MrPoole
     end
 
     # Generate a timestamped post
-    def post(title, slug='')
+    def post(opts)
       date = @helper.get_date_stamp
 
       # still want to escape any garbage in the slug
-      slug = title if slug.nil? || slug.empty?
+      slug = if opts[:slug].nil? || opts[:slug].empty?
+               opts[:title]
+             else
+               opts[:slug]
+             end
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
       head = @default_layout
-      head.sub!(/^title:\s*$/, "title: #{title}")
+      head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
       head.sub!(/^date:\s*$/, "date: #{date}")
 
       path = File.join(POSTS_FOLDER, "#{date}-#{slug}.md")
@@ -34,15 +38,19 @@ module MrPoole
     end
 
     # Generate a non-timestamped draft
-    def draft(title, slug='')
+    def draft(opts)
       # the drafts folder might not exist yet...create it just in case
       FileUtils.mkdir_p(DRAFTS_FOLDER)
 
-      slug = title if slug.nil? || slug.empty?
+      slug = if opts[:slug].nil? || opts[:slug].empty?
+               opts[:title]
+             else
+               opts[:slug]
+             end
       slug = @helper.get_slug_for(slug)
 
       head = @default_layout
-      head.sub!(/^title:\s*$/, "title: #{title}")
+      head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
 
       path = File.join(DRAFTS_FOLDER, "#{slug}.md")
       f = File.open(path, "w")

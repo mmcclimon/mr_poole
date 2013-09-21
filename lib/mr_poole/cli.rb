@@ -27,7 +27,7 @@ module MrPoole
       options.title ||= @params.first
 
       @helper.post_usage unless options.title
-      @commands.post(options.title, options.slug)
+      @commands.post(options)
     end
 
     def handle_draft
@@ -35,7 +35,7 @@ module MrPoole
       options.title ||= @params.first
 
       @helper.draft_usage unless options.title
-      @commands.draft(options.title, options.slug)
+      @commands.draft(options)
     end
 
     def handle_publish
