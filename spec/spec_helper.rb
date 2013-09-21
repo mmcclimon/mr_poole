@@ -38,7 +38,7 @@ def clean_tmp_files(tmpdir, restoredir)
   FileUtils.rm_rf(tmpdir)
 end
 
-def poole_with_args(argv)
+def poole(argv)
   return Proc.new do
     action = argv.shift
     cli = MrPoole::CLI.new(argv)
@@ -46,13 +46,28 @@ def poole_with_args(argv)
   end
 end
 
-def poole_with_args_no_stdout(argv)
+def poole_no_stdout(argv)
   return Proc.new do
     capture_stdout do
       action = argv.shift
       cli = MrPoole::CLI.new(argv)
       cli.execute(action)
     end
+  end
+end
+
+# This captures SystemExit exceptions and returns stdout
+def aborted_poole_output(argv)
+  return Proc.new do
+    output = capture_stdout do
+      begin
+        action = argv.shift
+        cli = MrPoole::CLI.new(argv)
+        cli.execute(action)
+      rescue SystemExit
+      end
+    end
+    output
   end
 end
 
