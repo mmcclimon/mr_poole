@@ -6,8 +6,10 @@ blogs.
 
 The literary Mr. Poole is Jekyll's butler, who "serves Jekyll faithfully, and
 attempts to do a good job and be loyal to his master"
-[Wikipedia](http://en.wikipedia.org/wiki/Jekyll_and_hyde#Mr._Poole), and the
+([Wikipedia](http://en.wikipedia.org/wiki/Jekyll_and_hyde#Mr._Poole)), and the
 Mr. Poole gem looks to be the same thing.
+
+[![Build Status](https://travis-ci.org/mmcclimon/mr_poole.png)](https://travis-ci.org/mmcclimon/mr_poole)
 
 ## Usage
 
