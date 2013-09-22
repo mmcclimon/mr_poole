@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
-require 'spec_helper'
-require 'mr_poole'
+require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('../../lib/mr_poole', __FILE__)
 
 module MrPoole
   describe Commands do
