@@ -146,7 +146,7 @@ Or install it yourself as:
 
     $ gem install mr_poole
 
-A## Contact
+## Contact
 
 Contact me on Github, at michael@mcclimon.org, or on twitter, @mmcclimon.
 
