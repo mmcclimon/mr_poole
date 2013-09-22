@@ -85,6 +85,20 @@ def write_custom_layout
   filename
 end
 
+def write_custom_layout_textile
+  filename = 'custom_layout.textile'
+  f = File.open(filename, 'w')
+  f.puts '---'
+  f.puts 'title:'
+  f.puts 'date:'
+  f.puts 'tags: testing'
+  f.puts '---'
+  f.puts ''
+  f.close
+
+  filename
+end
+
 def write_config_file_custom_layout
   filename = 'default_layout.md'
 
@@ -103,4 +117,11 @@ def write_config_file_custom_layout
   c.close
 
   filename
+end
+
+def write_config_file_custom_extension
+  c = File.open('_config.yml', 'w')
+  c.puts 'poole:'
+  c.puts "  default_extension: textile"
+  c.close
 end

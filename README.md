@@ -20,9 +20,9 @@ publish, and unpublish.
     poole post [OPTIONS] TITLE
 
 Generates a timestamped post in your `_posts` directory, with the format
-`YYYY-MM-DD-slug.md` (other formats to be suppored in the future). With no
-options, will generate a slug based on your title by replacing spaces with
-underscores, downcasing, and removing any special character.
+`YYYY-MM-DD-slug.md`. With no options, will generate a slug based on your title
+by replacing spaces with underscores, downcasing, and removing any special
+character.
 
 Options:
 
@@ -36,7 +36,7 @@ Options:
 ```
 
 By default, poole generates a simple file that looks like this (but see section
-on configuration for more optinos).
+on configuration for more options).
 
 ```yaml
 ---
@@ -75,7 +75,7 @@ The life, universe, and everything.
 
 A call to `poole publish` will generate a file named
 `_posts/yyyy-mm-dd-test_draft.md` and delete the draft. (TODO: add flags for
-no-delete drafts, and no-update timstamp.) Also updates the date filed in the
+no-delete drafts, and no-update timestamp.) Also updates the date filed in the
 header with a date, and HH:MM, producing this file:
 
 ```
@@ -111,11 +111,24 @@ You may also include directives for `poole` in Jekyll's `_config.yml` file. You
 should provide a `poole` key, which may take the following subkeys:
 
 - `default_layout` - path to a default layout to use
+- `default_extension` - file extension to use
+
+Any options you provide in `_config.yml` will override poole's built-in
+defaults. Mr. Poole defaults to using Markdown (with extension "md"), and the
+default layout is given above in the "Post" section. The default layout is
+actually just YAML front matter for Jekyll, so it can be used with any
+extension.
+
+Note that command-line options override anything set in your config file. For
+example, if you have your default extension set to `textile`, but then pass the
+`--layout` flag to post/draft with a Markdown template, the generated post will
+use the Markdown extension.
+
 
 ## To do
 
-- Configuration: hooking into jekyll's `_config.yml`
-- Support for multiple output formats (right now, only markdown is supported)
+- Configuration: hooking into jekyll's `_config.yml` (mostly done)
+- Support for multiple output formats (done, but needs better tests)
 - Better option handling (more flexible date substitution)
 - Better documentation (this is an open source project, after all)
 
@@ -133,7 +146,7 @@ Or install it yourself as:
 
     $ gem install mr_poole
 
-## Contact
+A## Contact
 
 Contact me on Github, at michael@mcclimon.org, or on twitter, @mmcclimon.
 

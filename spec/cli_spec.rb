@@ -255,5 +255,34 @@ module MrPoole
 
     end   # context action unpublish
 
+    context 'with default extension in config file' do
+      before(:each) { @olddir, @tmpdir = make_jekyll_dir }
+      before(:each) { write_config_file_custom_extension }
+      after(:each) { clean_tmp_files(@tmpdir, @olddir) }
+
+      it 'should override default extension for post' do
+        argv = ['post', 'post title']
+        poole_no_stdout(argv).call
+        fn = Dir.glob("_posts/*").first
+        expect(fn).to match(/textile$/)
+      end
+
+      it 'should not override if command-line layout given' do
+        layout_path = write_custom_layout
+        argv = ['post', '--layout', layout_path, '-t', 'title']
+        poole_no_stdout(argv).call
+        fn = Dir.glob("_posts/*").first
+        expect(fn).to match(/md$/)
+      end
+
+      it 'should override default extension for draft' do
+        argv = ['draft', 'post title']
+        poole_no_stdout(argv).call
+        fn = Dir.glob("_drafts/*").first
+        expect(fn).to match(/textile$/)
+      end
+
+    end
+
   end
 end

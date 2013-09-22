@@ -16,7 +16,8 @@ module MrPoole
     end
 
     # Get a layout as a string. If layout_path is non-nil,  will open that
-    # file and read it, otherwise will return a default one
+    # file and read it, otherwise will return a default one, and a file
+    # extension to use
     def get_layout(layout_path)
 
       if layout_path.nil?
@@ -25,15 +26,17 @@ module MrPoole
         contents << "layout: post\n"
         contents << "date:\n"
         contents << "---\n"
+        ext = nil
       else
         begin
           contents = File.open(layout_path, "r").read()
+          ext = layout_path.match(/\.(.*?)$/)[1]
         rescue Errno::ENOENT
           bad_path(layout_path)
         end
       end
 
-      contents
+      return contents, ext
     end
 
     # Given a post title (mixed case, spaces, etc.), generates a slug for

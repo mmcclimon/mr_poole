@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'shellwords'
 
 module MrPoole
   class Commands
@@ -7,8 +6,9 @@ module MrPoole
     POSTS_FOLDER = '_posts'
     DRAFTS_FOLDER = '_drafts'
 
-    def initialize
+    def initialize(extension='md')
       @helper = Helper.new
+      @ext = extension
     end
 
     # Generate a timestamped post
@@ -24,11 +24,12 @@ module MrPoole
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
-      head = @helper.get_layout(opts[:layout])
+      head, ext = @helper.get_layout(opts[:layout])
       head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
       head.sub!(/^date:\s*$/, "date: #{date}")
+      ext ||= @ext
 
-      path = File.join(POSTS_FOLDER, "#{date}-#{slug}.md")
+      path = File.join(POSTS_FOLDER, "#{date}-#{slug}.#{ext}")
       f = File.open(path, "w")
       f.write(head)
       f.close
@@ -49,10 +50,11 @@ module MrPoole
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
-      head = @helper.get_layout(opts[:layout])
+      head, ext = @helper.get_layout(opts[:layout])
       head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
+      ext ||= @ext
 
-      path = File.join(DRAFTS_FOLDER, "#{slug}.md")
+      path = File.join(DRAFTS_FOLDER, "#{slug}.#{ext}")
       f = File.open(path, "w")
       f.write(head)
       f.close
@@ -62,7 +64,7 @@ module MrPoole
 
     # Todo make this take a path instead?
     def publish(draftpath)
-      slug = File.basename(draftpath, '.md')
+      tail = File.basename(draftpath)
 
       begin
         infile = File.open(draftpath, "r")
@@ -73,7 +75,7 @@ module MrPoole
       date = @helper.get_date_stamp
       time = @helper.get_time_stamp
 
-      outpath = File.join(POSTS_FOLDER, "#{date}-#{slug}.md")
+      outpath = File.join(POSTS_FOLDER, "#{date}-#{tail}")
       outfile = File.open(outpath, "w")
 
       infile.each_line do |line|

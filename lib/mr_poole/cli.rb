@@ -10,7 +10,9 @@ module MrPoole
 
       @params = args
       @config = Config.new
-      @commands = Commands.new
+
+      ext = @config.default_extension || 'md'
+      @commands = Commands.new(ext)
     end
 
     def execute(action)

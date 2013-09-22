@@ -283,5 +283,66 @@ module MrPoole
       end
 
     end   # end describe unpublish
+
+    context 'with custom extension' do
+      let(:commands) { Commands.new('textile') }
+
+      it 'post should use custom extension' do
+        fn = commands.post({title: 'post title'})
+        expect(fn).to match(/textile$/)
+      end
+
+      it 'draft should use custom extension' do
+        fn = commands.draft({title: 'post title'})
+        expect(fn).to match(/textile$/)
+      end
+
+      it 'publish should use custom extension' do
+        draft_path = commands.draft({title: 'post title'})
+        fn = commands.publish(draft_path)
+        expect(fn).to match(/textile$/)
+      end
+
+      it 'unpublish should use custom extension' do
+        post_path = commands.post({title: 'post title'})
+        fn = commands.unpublish(post_path)
+        expect(fn).to match(/textile$/)
+      end
+
+    end
+
+    context 'with layout override' do
+
+      it "post should inherit layout's file extension" do
+        layout_path = write_custom_layout_textile
+        fn = c.post({title: 'post title', layout: layout_path})
+        expect(fn).not_to match(/md/)
+        expect(fn).to match(/textile$/)
+      end
+
+      it "draft should inherit layout's file extension" do
+        layout_path = write_custom_layout_textile
+        fn = c.draft({title: 'post title', layout: layout_path})
+        expect(fn).not_to match(/md/)
+        expect(fn).to match(/textile$/)
+      end
+
+      it "publish should inherit draft's extension" do
+        layout_path = write_custom_layout_textile
+        draft_path = c.draft({title: 'post title', layout: layout_path})
+        fn = c.publish(draft_path)
+        expect(fn).not_to match(/md/)
+        expect(fn).to match(/textile$/)
+      end
+
+      it "unpublish should inherit post's extension" do
+        layout_path = write_custom_layout_textile
+        post_path = c.post({title: 'post title', layout: layout_path})
+        fn = c.publish(post_path)
+        expect(fn).not_to match(/md/)
+        expect(fn).to match(/textile$/)
+      end
+
+    end
   end
 end
