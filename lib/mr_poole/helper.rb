@@ -8,7 +8,7 @@ module MrPoole
     # Check for a _posts directory in current directory
     # If we don't find one, puke an error message and die
     def ensure_jekyll_dir
-      unless Dir.exists?('./_posts')
+      unless File.exists?('./_posts')
         puts 'ERROR: Cannot locate _posts directory. Double check to make sure'
         puts '       that you are in a jekyll directory.'
         exit

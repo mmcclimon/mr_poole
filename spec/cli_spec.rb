@@ -191,7 +191,7 @@ module MrPoole
     end   # describe draft
 
     describe "action 'publish'" do
-      let(:d_path) { Commands.new.draft({title: 'test_draft'}) }
+      let(:d_path) { Commands.new.draft({:title => 'test_draft'}) }
       before(:each) { @olddir, @tmpdir = make_jekyll_dir }
       after(:each) { clean_tmp_files(@tmpdir, @olddir) }
 
@@ -252,7 +252,7 @@ module MrPoole
     end
 
     describe "action 'unpublish'" do
-      let(:p_path) { Commands.new.post({title: 'test_post'}) }
+      let(:p_path) { Commands.new.post({:title => 'test_post'}) }
       before(:each) { @olddir, @tmpdir = make_jekyll_dir }
       after(:each) { clean_tmp_files(@tmpdir, @olddir) }
 
