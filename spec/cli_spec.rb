@@ -233,6 +233,22 @@ module MrPoole
         end
       end   # context exit message
 
+      context 'keep draft post' do
+        it 'should keep draft post if called with --keep-draft' do
+          argv = ['publish', '--keep-draft', d_path]
+          poole_no_stdout(argv).call
+          expect(File.exists?(d_path)).to be(true)
+        end
+      end
+
+      context 'keep timestamp' do
+        it 'should keep the timestamp if called with --keep-timestamp' do
+          argv = ['publish', '--keep-timestamp', d_path]
+          new_file = poole_no_stdout(argv).call.chomp
+          content = File.open(new_file, "r").read
+          expect(content).to match(/^date:$/)
+        end
+      end
     end
 
     describe "action 'unpublish'" do

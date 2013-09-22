@@ -46,13 +46,18 @@ module MrPoole
     def handle_publish
       options = OpenStruct.new
       opt_parser = OptionParser.new do |opts|
-        # eventually there will be options...not yet
+        opts.on('-d', '--keep-draft', "Keep the draft post") do |d|
+          options.keep_draft = d
+        end
+        opts.on('-t', '--keep-timestamp', "Keep the existing timestamp") do |t|
+          options.keep_timestamp = t
+        end
       end
       opt_parser.parse! @params
 
       path = @params.first
       @helper.publish_usage unless path
-      fn = @commands.publish(path)
+      fn = @commands.publish(path, options)
       puts fn
     end
 
