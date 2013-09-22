@@ -1,5 +1,6 @@
-require 'spec_helper'
-require 'mr_poole'
+require 'rspec/autorun'
+require File.expand_path('../spec_helper', __FILE__)
+require File.expand_path('../../lib/mr_poole', __FILE__)
 
 def write_config_file
   f = File.open('_config.yml', 'w')

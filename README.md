@@ -76,9 +76,8 @@ The life, universe, and everything.
 ```
 
 A call to `poole publish` will generate a file named
-`_posts/yyyy-mm-dd-test_draft.md` and delete the draft. (TODO: add flags for
-no-delete drafts, and no-update timestamp.) Also updates the date filed in the
-header with a date, and HH:MM, producing this file:
+`_posts/yyyy-mm-dd-test_draft.md` and delete the draft. Also updates the date
+filed in the header with a date, and HH:MM, producing this file:
 
 ```
 ---

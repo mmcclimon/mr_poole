@@ -66,7 +66,11 @@ module MrPoole
     end
 
     # Todo make this take a path instead?
-    def publish(draftpath)
+    #
+    # @param draftpath [String] path to the draft
+    # @option options :keep_draft [Boolean] if true, keep the draft file
+    # @option options :keep_timestamp [Boolean] if true, don't change the timestamp
+    def publish(draftpath, options = {})
       tail = File.basename(draftpath)
 
       begin
@@ -82,13 +86,13 @@ module MrPoole
       outfile = File.open(outpath, "w")
 
       infile.each_line do |line|
-        l = line.sub(/^date:\s*$/, "date: #{date} #{time}\n")
-        outfile.write(l)
+        line.sub!(/^date:\s*$/, "date: #{date} #{time}\n") unless options[:keep_timestamp]
+        outfile.write(line)
       end
 
       infile.close
       outfile.close
-      FileUtils.rm(draftpath)
+      FileUtils.rm(draftpath) unless options[:keep_draft]
 
       outpath
     end
