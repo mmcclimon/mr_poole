@@ -14,7 +14,7 @@ module MrPoole
     end
 
     def empty?
-      @config.to_h.empty?
+      @config == OpenStruct.new
     end
 
     def inspect
