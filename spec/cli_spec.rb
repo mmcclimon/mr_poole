@@ -19,6 +19,24 @@ module MrPoole
       end
     end   # context determine jekyll dir
 
+    context 'no correct action' do
+      before(:each) { @olddir, @tmpdir = make_jekyll_dir }
+      after(:each) { clean_tmp_files(@tmpdir, @olddir) }
+
+      it 'prints help message with no action' do
+        argv = []
+        output = aborted_poole_output(argv).call
+        expect(output).to match(/poole \[ACTION\] \[ARG\]/)
+      end
+
+      it 'prints help message with unknown action' do
+        argv = ['bogusify']
+        output = aborted_poole_output(argv).call
+        expect(output).to match(/poole \[ACTION\] \[ARG\]/)
+      end
+
+    end
+
     describe "action 'post'" do
       before(:each) { @olddir, @tmpdir = make_jekyll_dir }
       after(:each) { clean_tmp_files(@tmpdir, @olddir) }

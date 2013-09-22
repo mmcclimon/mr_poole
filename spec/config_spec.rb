@@ -39,6 +39,13 @@ module MrPoole
         config = Config.new
         expect(config).not_to be_empty
       end
+    end
+
+    describe '#inspect' do
+      it 'looks like OpenStruct.inspect' do
+        config = Config.new
+        expect(config.inspect).to match(/#<OpenStruct/)
+      end
 
     end
 
