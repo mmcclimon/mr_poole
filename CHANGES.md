@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.2.1 (2013-09-22)
+
+- Command-line methods now echo a filename (useful for piping into editor)
+
 ### v0.2.0 (2013-09-21)
 
 - Hooked into Jekyll's `_config.yml` for customizations

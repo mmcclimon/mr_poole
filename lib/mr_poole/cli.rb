@@ -30,7 +30,8 @@ module MrPoole
       options.title ||= @params.first
 
       @helper.post_usage unless options.title
-      @commands.post(options)
+      fn = @commands.post(options)
+      puts fn
     end
 
     def handle_draft
@@ -38,7 +39,8 @@ module MrPoole
       options.title ||= @params.first
 
       @helper.draft_usage unless options.title
-      @commands.draft(options)
+      fn = @commands.draft(options)
+      puts fn
     end
 
     def handle_publish
@@ -50,7 +52,8 @@ module MrPoole
 
       path = @params.first
       @helper.publish_usage unless path
-      @commands.publish(path)
+      fn = @commands.publish(path)
+      puts fn
     end
 
     def handle_unpublish
@@ -62,7 +65,8 @@ module MrPoole
 
       path = @params.first
       @helper.unpublish_usage unless path
-      @commands.unpublish(path)
+      fn = @commands.unpublish(path)
+      puts fn
     end
 
     def do_creation_options
@@ -72,11 +76,11 @@ module MrPoole
       options.layout = nil
 
       opt_parser = OptionParser.new do |opts|
-        opts.on('-s', '--slug [SLUG]', "Use custom slug") do |s|
+        opts.on('-s', '--slug SLUG', "Use custom slug") do |s|
           options.slug = s
         end
 
-        opts.on('-t', '--title [TITLE]', "Specifiy title") do |t|
+        opts.on('-t', '--title TITLE', "Specifiy title") do |t|
           options.title = t
         end
 

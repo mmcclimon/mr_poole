@@ -13,7 +13,9 @@ Mr. Poole gem looks to be the same thing.
 
 Mr. Poole is primarily a command-line application: the gem installs an
 executable called `poole` in your path. It has four subcommands: post, draft,
-publish, and unpublish.
+publish, and unpublish. All four of these commands echo a filename to STDOUT,
+so you can do something like `poole post "Title" | vim` and start editing
+immediately.
 
 ### Post
 

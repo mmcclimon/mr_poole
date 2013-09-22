@@ -50,11 +50,19 @@ module MrPoole
       end   # context error handling
 
       context 'exit message' do
-        it 'should exit with a usage message' do
+        it 'exits with a usage message on fail' do
           argv = ['post']
           output = aborted_poole_output(argv).call
           expect(output).to match(/Usage:\s+poole post/)
         end
+
+        it 'echoes path to newly created post on success' do
+          argv = ['post', 'post title']
+          output = poole_no_stdout(argv).call.chomp
+          determined = Dir.glob("_posts/*.md").first
+          expect(output).to eq(determined)
+        end
+
       end   # context exit message
 
       context 'custom layout' do
@@ -62,8 +70,7 @@ module MrPoole
 
         it 'should use custom layout with --layout' do
           argv = ['post', '--layout', layout_path, '--title', 'title']
-          poole_no_stdout(argv).call
-          new_file = Dir.glob("_posts/*.md").first
+          new_file = poole_no_stdout(argv).call.chomp
           content = File.open(new_file, 'r').read
           expect(content).to match(/tags: testing/)
         end
@@ -79,8 +86,7 @@ module MrPoole
 
         it 'overrides default layout' do
           argv = ['post', 'post title']
-          poole_no_stdout(argv).call
-          new_file = Dir.glob("_posts/*.md").first
+          new_file = poole_no_stdout(argv).call.chomp
           content = File.open(new_file, 'r').read
           expect(content).to match(/tags: from_config/)
         end
@@ -89,8 +95,7 @@ module MrPoole
           custom_path = write_custom_layout
 
           argv = ['post', '--layout', custom_path, '--title', 'title']
-          poole_no_stdout(argv).call
-          new_file = Dir.glob("_posts/*.md").first
+          new_file = poole_no_stdout(argv).call.chomp
           content = File.open(new_file, 'r').read
           expect(content).not_to match(/tags: from_config/)
           expect(content).to match(/tags: testing/)
@@ -131,10 +136,17 @@ module MrPoole
       end   # context error handling
 
       context 'exit message' do
-        it 'should exit with a usage message' do
+        it 'exits with a usage message' do
           argv = ['draft']
           output = aborted_poole_output(argv).call
           expect(output).to match(/Usage:\s+poole draft/)
+        end
+
+        it 'echoes path to newly created post on success' do
+          argv = ['draft', 'post title']
+          output = poole_no_stdout(argv).call.chomp
+          determined = Dir.glob("_drafts/*.md").first
+          expect(output).to eq(determined)
         end
       end   # context exit message
 
@@ -159,8 +171,7 @@ module MrPoole
 
         it 'overrides default layout' do
           argv = ['draft', 'post title']
-          poole_no_stdout(argv).call
-          new_file = Dir.glob("_drafts/*.md").first
+          new_file = poole_no_stdout(argv).call.chomp
           content = File.open(new_file, 'r').read
           expect(content).to match(/tags: from_config/)
         end
@@ -169,8 +180,7 @@ module MrPoole
           custom_path = write_custom_layout
 
           argv = ['draft', '--layout', custom_path, '--title', 'title']
-          poole_no_stdout(argv).call
-          new_file = Dir.glob("_drafts/*.md").first
+          new_file = poole_no_stdout(argv).call.chomp
           content = File.open(new_file, 'r').read
           expect(content).not_to match(/tags: from_config/)
           expect(content).to match(/tags: testing/)
@@ -213,6 +223,13 @@ module MrPoole
           output = aborted_poole_output(argv).call
           expect(output).to match(/Error:\s+could not open/)
         end
+
+        it 'echoes path to newly created post on success' do
+          argv = ['publish', d_path]
+          output = poole_no_stdout(argv).call.chomp
+          determined = Dir.glob("_posts/*.md").first
+          expect(output).to eq(determined)
+        end
       end   # context exit message
 
     end
@@ -251,6 +268,13 @@ module MrPoole
           output = aborted_poole_output(argv).call
           expect(output).to match(/Error:\s+could not open/)
         end
+
+        it 'echoes path to newly created post on success' do
+          argv = ['unpublish', p_path]
+          output = poole_no_stdout(argv).call.chomp
+          determined = Dir.glob("_drafts/*.md").first
+          expect(output).to eq(determined)
+        end
       end   # context exit message
 
     end   # context action unpublish
@@ -262,23 +286,20 @@ module MrPoole
 
       it 'should override default extension for post' do
         argv = ['post', 'post title']
-        poole_no_stdout(argv).call
-        fn = Dir.glob("_posts/*").first
+        fn = poole_no_stdout(argv).call
         expect(fn).to match(/textile$/)
       end
 
       it 'should not override if command-line layout given' do
         layout_path = write_custom_layout
         argv = ['post', '--layout', layout_path, '-t', 'title']
-        poole_no_stdout(argv).call
-        fn = Dir.glob("_posts/*").first
+        fn = poole_no_stdout(argv).call
         expect(fn).to match(/md$/)
       end
 
       it 'should override default extension for draft' do
         argv = ['draft', 'post title']
-        poole_no_stdout(argv).call
-        fn = Dir.glob("_drafts/*").first
+        fn = poole_no_stdout(argv).call.chomp
         expect(fn).to match(/textile$/)
       end
 
