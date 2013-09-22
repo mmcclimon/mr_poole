@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.3.1 (2013-09-22)
+
+- Bugfixes to work properly on ruby 1.8.7.
+
 ### v0.3.0 (2013-09-22)
 
 - Added --keep-draft and --keep-timestamp flags to publish command (thanks,
