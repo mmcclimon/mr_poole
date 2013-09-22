@@ -35,12 +35,12 @@ character.
 Options:
 
 ```
---slug (-s)     Define a custom slug for post, used for generated file name
+-s, --slug      Define a custom slug for post, used for generated file name
 
---title (-t)    Define a title for post. This option may be omitted provided
+-t, --title     Define a title for post. This option may be omitted provided
                 that TITLE is given as the last argument to poole
 
---layout (-l)   Path to a custom layout file to use
+-l, --layout    Path to a custom layout file to use
 ```
 
 By default, poole generates a simple file that looks like this (but see section
@@ -64,10 +64,15 @@ as `post`. In the generated file, no date is inserted.
 
 ### Publish
 
-    poole publish DRAFT_PATH
+    poole publish [OPTIONS] DRAFT_PATH
 
-Publishes a draft from your _drafts folder to your _posts folder, renaming the
-file and updating the date in the header.
+Publishes a draft from your _drafts folder to your _posts folder By default,
+renames the file and updates the date in the header, but see options:
+
+```
+-d, --keep-draft        Do not delete the draft post'
+-t, --keep-timestamp    Do not update the draft timestamp'
+```
 
 Given this file (called `_drafts/test_draft.md`):
 
@@ -81,7 +86,7 @@ date:
 The life, universe, and everything.
 ```
 
-A call to `poole publish` will generate a file named
+A call to `poole publish _drafts/test_draft.md` will generate a file named
 `_posts/yyyy-mm-dd-test_draft.md` and delete the draft. Also updates the date
 filed in the header with a date, and HH:MM, producing this file:
 

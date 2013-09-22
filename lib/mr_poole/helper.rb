@@ -78,37 +78,33 @@ module MrPoole
     def post_usage
       puts 'Usage:'
       puts '  poole post [OPTION] [ARG] TITLE'
-      puts ''
-      puts 'Options:'
-      puts '  --slug    Define a custom slug for post, used for generated file name'
-      puts '            (also available with -s)'
-      puts '  --title   Define a title for post (also available with -t)'
-      puts '            This option may be omitted provided that TITLE is given as'
-      puts '            the last argument to poole'
-      puts '  --layout  Path to a custom layout file to use (also availabe with -l)'
+      creation_options_usage
       exit
     end
 
     def draft_usage
       puts 'Usage:'
       puts '  poole draft [OPTION] [ARG] TITLE'
+      creation_options_usage
+      exit
+    end
+
+    def creation_options_usage
       puts ''
       puts 'Options:'
-      puts '  --slug    Define a custom slug for post, used for generated file name'
-      puts '            (also available with -s)'
-      puts '  --title   Define a title for post (also available with -t)'
-      puts '            This option may be omitted provided that TITLE is given as'
-      puts '            the last argument to poole'
-      puts '  --layout  Path to a custom layout file to use (also availabe with -l)'
-      exit
+      puts '  -s, --slug    Define a custom slug for post, used for generated file name'
+      puts '  -t, --title   Define a title for post This option may be omitted provided'
+      puts '                that TITLE is given as the last argument to poole'
+      puts '  -l, --layout  Path to a custom layout file to use'
     end
 
     def publish_usage
       puts 'Usage:'
-      puts '  poole publish PATH_TO_DRAFT'
+      puts '  poole publish [OPTIONS] PATH_TO_DRAFT'
       puts ''
       puts 'Options:'
-      puts '  (coming soon)'
+      puts '  -d, --keep-draft      Do not delete the draft post'
+      puts '  -t, --keep-timestamp  Do not update the draft timestamp'
       exit
     end
 
