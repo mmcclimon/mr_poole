@@ -1,9 +1,8 @@
 require 'fileutils'
 
-require 'mr_poole/commands'
-require 'mr_poole/helper'
-require 'mr_poole/cli'
-require 'mr_poole/config'
+%w{ commands helper cli config }.each do |lib|
+  require File.expand_path("../mr_poole/#{lib}", __FILE__)
+end
 
 module MrPoole
 end
