@@ -10,6 +10,8 @@ attempts to do a good job and be loyal to his master"
 Mr. Poole gem looks to be the same thing.
 
 [![Build Status](https://travis-ci.org/mmcclimon/mr_poole.png)](https://travis-ci.org/mmcclimon/mr_poole)
+[![Code Climate](https://codeclimate.com/github/mmcclimon/mr_poole.png)](https://codeclimate.com/github/mmcclimon/mr_poole)
+[![Coverage Status](https://coveralls.io/repos/mmcclimon/mr_poole/badge.png)](https://coveralls.io/r/mmcclimon/mr_poole)
 
 ## Usage
 

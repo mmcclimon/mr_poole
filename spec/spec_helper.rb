@@ -4,6 +4,11 @@ require 'stringio'
 require 'tmpdir'
 require 'fileutils'
 
+if RUBY_VERSION > '1.9'
+  require 'coveralls'
+  Coveralls.wear!
+end
+
 def capture_stdout(&block)
   stdout = $stdout
   fake_out = StringIO.new
