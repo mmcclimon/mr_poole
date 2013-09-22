@@ -84,3 +84,23 @@ def write_custom_layout
 
   filename
 end
+
+def write_config_file_custom_layout
+  filename = 'default_layout.md'
+
+  l = File.open(filename, 'w')
+  l.puts '---'
+  l.puts 'title:'
+  l.puts 'date:'
+  l.puts 'tags: from_config'
+  l.puts '---'
+  l.puts ''
+  l.close
+
+  c = File.open('_config.yml', 'w')
+  c.puts 'poole:'
+  c.puts "  default_layout: #{filename}"
+  c.close
+
+  filename
+end

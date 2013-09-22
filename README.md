@@ -35,8 +35,8 @@ Options:
 --layout (-l)   Path to a custom layout file to use
 ```
 
-Poole generates a simple file (in the future, this will be customizable) that
-looks like this:
+By default, poole generates a simple file that looks like this (but see section
+on configuration for more optinos).
 
 ```yaml
 ---
@@ -105,6 +105,12 @@ The actual work is done in `MrPoole::Commands`: calls into that class return
 the path name for newly created files, so you can do something useful with
 them if you want to. This should get better in the future.
 
+## Configuration
+
+You may also include directives for `poole` in Jekyll's `_config.yml` file. You
+should provide a `poole` key, which may take the following subkeys:
+
+- `default_layout` - path to a default layout to use
 
 ## To do
 

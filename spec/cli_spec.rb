@@ -50,13 +50,11 @@ module MrPoole
       end   # context error handling
 
       context 'exit message' do
-
         it 'should exit with a usage message' do
           argv = ['post']
           output = aborted_poole_output(argv).call
           expect(output).to match(/Usage:\s+poole post/)
         end
-
       end   # context exit message
 
       context 'custom layout' do
@@ -65,7 +63,8 @@ module MrPoole
         it 'should use custom layout with --layout' do
           argv = ['post', '--layout', layout_path, '--title', 'title']
           poole_no_stdout(argv).call
-          content = File.open(layout_path, 'r').read
+          new_file = Dir.glob("_posts/*.md").first
+          content = File.open(new_file, 'r').read
           expect(content).to match(/tags: testing/)
         end
 
@@ -74,6 +73,29 @@ module MrPoole
           expect { poole_no_stdout(argv).call }.to raise_error(SystemExit)
         end
       end   # context custom layout
+
+      context 'default_layout in config file' do
+        before(:each) { write_config_file_custom_layout }
+
+        it 'overrides default layout' do
+          argv = ['post', 'post title']
+          poole_no_stdout(argv).call
+          new_file = Dir.glob("_posts/*.md").first
+          content = File.open(new_file, 'r').read
+          expect(content).to match(/tags: from_config/)
+        end
+
+        it 'is overridden by command-line layout switch' do
+          custom_path = write_custom_layout
+
+          argv = ['post', '--layout', custom_path, '--title', 'title']
+          poole_no_stdout(argv).call
+          new_file = Dir.glob("_posts/*.md").first
+          content = File.open(new_file, 'r').read
+          expect(content).not_to match(/tags: from_config/)
+          expect(content).to match(/tags: testing/)
+        end
+      end   # default layout in config
 
     end   # end describe post
 
@@ -131,7 +153,31 @@ module MrPoole
           expect { poole_no_stdout(argv).call }.to raise_error(SystemExit)
         end
       end   # end custom layout
-    end   # end describe draft
+
+      context 'default_layout in config file' do
+        before(:each) { write_config_file_custom_layout }
+
+        it 'overrides default layout' do
+          argv = ['draft', 'post title']
+          poole_no_stdout(argv).call
+          new_file = Dir.glob("_drafts/*.md").first
+          content = File.open(new_file, 'r').read
+          expect(content).to match(/tags: from_config/)
+        end
+
+        it 'is overridden by command-line layout switch' do
+          custom_path = write_custom_layout
+
+          argv = ['draft', '--layout', custom_path, '--title', 'title']
+          poole_no_stdout(argv).call
+          new_file = Dir.glob("_drafts/*.md").first
+          content = File.open(new_file, 'r').read
+          expect(content).not_to match(/tags: from_config/)
+          expect(content).to match(/tags: testing/)
+        end
+      end   # default layout in config
+
+    end   # describe draft
 
     describe "action 'publish'" do
       let(:d_path) { Commands.new.draft({title: 'test_draft'}) }
@@ -207,8 +253,7 @@ module MrPoole
         end
       end   # context exit message
 
-
-    end   # action unpublish
+    end   # context action unpublish
 
   end
 end

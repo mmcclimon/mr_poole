@@ -9,6 +9,7 @@ module MrPoole
       @helper.ensure_jekyll_dir
 
       @params = args
+      @config = Config.new
       @commands = Commands.new
     end
 
@@ -81,6 +82,8 @@ module MrPoole
           options.layout = l
         end
       end
+
+      options.layout ||= @config.default_layout
 
       opt_parser.parse! @params
       options
