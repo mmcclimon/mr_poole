@@ -15,6 +15,10 @@ module MrPoole
       end
     end
 
+    def ensure_open_struct(opts)
+      return opts.instance_of?(Hash) ?  OpenStruct.new(opts) : opts
+    end
+
     # Get a layout as a string. If layout_path is non-nil,  will open that
     # file and read it, otherwise will return a default one, and a file
     # extension to use

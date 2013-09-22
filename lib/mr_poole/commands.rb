@@ -13,19 +13,20 @@ module MrPoole
 
     # Generate a timestamped post
     def post(opts)
+      opts = @helper.ensure_open_struct(opts)
       date = @helper.get_date_stamp
 
       # still want to escape any garbage in the slug
-      slug = if opts[:slug].nil? || opts[:slug].empty?
-               opts[:title]
+      slug = if opts.slug.nil? || opts.slug.empty?
+               opts.title
              else
-               opts[:slug]
+               opts.slug
              end
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
-      head, ext = @helper.get_layout(opts[:layout])
-      head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
+      head, ext = @helper.get_layout(opts.layout)
+      head.sub!(/^title:\s*$/, "title: #{opts.title}")
       head.sub!(/^date:\s*$/, "date: #{date}")
       ext ||= @ext
 
@@ -39,19 +40,21 @@ module MrPoole
 
     # Generate a non-timestamped draft
     def draft(opts)
+      opts = @helper.ensure_open_struct(opts)
+
       # the drafts folder might not exist yet...create it just in case
       FileUtils.mkdir_p(DRAFTS_FOLDER)
 
-      slug = if opts[:slug].nil? || opts[:slug].empty?
-               opts[:title]
+      slug = if opts.slug.nil? || opts.slug.empty?
+               opts.title
              else
-               opts[:slug]
+               opts.slug
              end
       slug = @helper.get_slug_for(slug)
 
       # put the metadata into the layout header
-      head, ext = @helper.get_layout(opts[:layout])
-      head.sub!(/^title:\s*$/, "title: #{opts[:title]}")
+      head, ext = @helper.get_layout(opts.layout)
+      head.sub!(/^title:\s*$/, "title: #{opts.title}")
       ext ||= @ext
 
       path = File.join(DRAFTS_FOLDER, "#{slug}.#{ext}")

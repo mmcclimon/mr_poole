@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.2.2 (2013-09-22)
+
+- Bugfix so that poole works on ruby 1.9.3
+
 ### v0.2.1 (2013-09-22)
 
 - Command-line methods now echo a filename (useful for piping into editor)
