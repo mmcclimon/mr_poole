@@ -55,6 +55,7 @@ module MrPoole
       # put the metadata into the layout header
       head, ext = @helper.get_layout(opts.layout)
       head.sub!(/^title:\s*$/, "title: #{opts.title}")
+      head.sub!(/^date:\s*$/, "date: #{@helper.get_date_stamp}")
       ext ||= @ext
 
       path = File.join(DRAFTS_FOLDER, "#{slug}.#{ext}")
@@ -87,7 +88,7 @@ module MrPoole
       outfile = File.open(outpath, "w")
 
       infile.each_line do |line|
-        line.sub!(/^date:\s*$/, "date: #{date} #{time}\n") unless opts.keep_timestamp
+        line.sub!(/^date:.*$/, "date: #{date} #{time}\n") unless opts.keep_timestamp
         outfile.write(line)
       end
 

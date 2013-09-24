@@ -264,7 +264,7 @@ module MrPoole
           argv = ['publish', '--keep-timestamp', d_path]
           new_file = poole_no_stdout(argv).call.chomp
           content = File.open(new_file, "r").read
-          expect(content).to match(/^date:$/)
+          expect(content).to match(/^date: \d{4}-\d{2}-\d{2}$/)
         end
       end
     end

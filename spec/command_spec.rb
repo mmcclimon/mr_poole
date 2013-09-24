@@ -145,7 +145,7 @@ module MrPoole
         it "should not update the date in the file itself" do
           fn = c.draft({:title => "Date test post"})
           content = File.open(fn, 'r').read
-          expect(content).to match(/date:\s*\n/)
+          expect(content).to match(/date: \d{4}-\d{2}-\d{2}\n/)
         end
       end   # end context title only
 
