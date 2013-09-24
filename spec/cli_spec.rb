@@ -37,6 +37,23 @@ module MrPoole
 
     end
 
+    context 'version switch' do
+      before(:each) { @olddir, @tmpdir = make_jekyll_dir }
+      after(:each) { clean_tmp_files(@tmpdir, @olddir) }
+
+      it 'prints version and exits with --version' do
+        argv = ['--version']
+        output = aborted_poole_output(argv).call
+        expect(output).to match(/Mr[.] Poole, version /)
+      end
+
+      it 'prints version and exits with -v' do
+        argv = ['-v']
+        output = aborted_poole_output(argv).call
+        expect(output).to match(/Mr[.] Poole, version /)
+      end
+
+    end
     describe "action 'post'" do
       before(:each) { @olddir, @tmpdir = make_jekyll_dir }
       after(:each) { clean_tmp_files(@tmpdir, @olddir) }

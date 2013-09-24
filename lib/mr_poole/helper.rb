@@ -62,6 +62,16 @@ module MrPoole
       exit
     end
 
+    def version_statement
+      puts ''
+      puts "This is Mr. Poole, version #{MrPoole::VERSION}, running on ruby version #{RUBY_VERSION}"
+      puts ''
+      puts 'Copyright 2013, Michael McClimon'
+      puts 'https://github.com/mmcclimon/mr_poole'
+      puts ''
+      exit
+    end
+
     # Print a usage message and exit
     def gen_usage
       puts 'Usage:'

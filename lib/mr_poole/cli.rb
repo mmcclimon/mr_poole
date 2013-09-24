@@ -21,6 +21,8 @@ module MrPoole
       when 'draft' then handle_draft
       when 'publish' then handle_publish
       when 'unpublish' then handle_unpublish
+      when '--version' then @helper.version_statement
+      when '-v' then @helper.version_statement
       else @helper.gen_usage
       end
     end
