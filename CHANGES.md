@@ -1,5 +1,14 @@
 # Changelog
 
+### v0.4.0 (2013-09-28)
+
+- Add options for unpublish
+
+### v0.3.2 (2013-09-24)
+
+- Add '--version/-v' option
+- Minor bugfixes, tests
+
 ### v0.3.1 (2013-09-22)
 
 - Bugfixes to work properly on ruby 1.8.7.

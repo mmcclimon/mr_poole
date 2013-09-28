@@ -107,9 +107,12 @@ The life, universe, and everything.
 The reverse of publish: moves a file from your _posts folder to the _drafts
 folder, renaming the file and removing the date in the header. This will
 rename a file called `_posts/yyyy-mm-dd-test_post.md` to
-`_drafts/test_post.md`. (TODO: add flags for no-delete post, no-update
-timestamp, and custom slug for unpublished draft (?))
+`_drafts/test_post.md`.
 
+```
+-p, --keep-post         Do not delete the existing post'
+-t, --keep-timestamp    Do not update the existing timestamp'
+```
 
 ### Script usage
 

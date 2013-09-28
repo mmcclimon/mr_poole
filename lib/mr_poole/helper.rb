@@ -123,7 +123,8 @@ module MrPoole
       puts '  poole unpublish PATH_TO_POST'
       puts ''
       puts 'Options:'
-      puts '  (coming soon)'
+      puts '  -p, --keep-post       Do not delete the existing post'
+      puts '  -t, --keep-timestamp  Do not update the existing timestamp'
       exit
     end
 
