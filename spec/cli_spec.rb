@@ -272,7 +272,7 @@ module MrPoole
         it 'should keep draft post if called with --keep-draft' do
           argv = ['publish', '--keep-draft', d_path]
           poole_no_stdout(argv).call
-          expect(File.exists?(d_path)).to be(true)
+          expect(File.exists?(d_path)).to be_true
         end
       end
 
@@ -328,6 +328,36 @@ module MrPoole
           expect(output).to eq(determined)
         end
       end   # context exit message
+
+      context 'keep post' do
+        it 'should not delete the post if called with --keep-post' do
+          argv = ['unpublish', '--keep-post', p_path]
+          poole_no_stdout(argv).call
+          expect(File.exists?(p_path)).to be_true
+        end
+
+        it 'should not delete the post if called with -p' do
+          argv = ['unpublish', '-p', p_path]
+          poole_no_stdout(argv).call
+          expect(File.exists?(p_path)).to be_true
+        end
+      end
+
+      context 'keep timestamp' do
+        it 'should not change timestamp if called with --keep-timestamp' do
+          argv = ['unpublish', '--keep-timestamp', p_path]
+          fn = poole_no_stdout(argv).call.chomp
+          content = File.open(fn, 'r').read
+          expect(content).to match(/^date: \d{4}-\d{2}-\d{2}/)
+        end
+
+        it 'should not change timestamp if called with -t' do
+          argv = ['unpublish', '-t', p_path]
+          fn = poole_no_stdout(argv).call.chomp
+          content = File.open(fn, 'r').read
+          expect(content).to match(/^date: \d{4}-\d{2}-\d{2}/)
+        end
+      end
 
     end   # context action unpublish
 

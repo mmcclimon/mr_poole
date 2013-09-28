@@ -71,7 +71,7 @@ module MrPoole
     # @param draftpath [String] path to the draft
     # @option options :keep_draft [Boolean] if true, keep the draft file
     # @option options :keep_timestamp [Boolean] if true, don't change the timestamp
-    def publish(draftpath, opts = {})
+    def publish(draftpath, opts={})
       opts = @helper.ensure_open_struct(opts)
       tail = File.basename(draftpath)
 
@@ -99,7 +99,9 @@ module MrPoole
       outpath
     end
 
-    def unpublish(inpath)
+    def unpublish(inpath, opts={})
+      opts = @helper.ensure_open_struct(opts)
+
       # the drafts folder might not exist yet...create it just in case
       FileUtils.mkdir_p(DRAFTS_FOLDER)
 
@@ -114,13 +116,13 @@ module MrPoole
       outfile = File.open(outpath, "w")
 
       infile.each_line do |line|
-        l = line.sub(/^date:\s*.*$/, "date:")
-        outfile.write(l)
+        line.sub!(/^date:\s*.*$/, "date:") unless opts.keep_timestamp
+        outfile.write(line)
       end
 
       infile.close
       outfile.close
-      FileUtils.rm(inpath)
+      FileUtils.rm(inpath) unless opts.keep_post
 
       outpath
     end

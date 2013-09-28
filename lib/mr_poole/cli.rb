@@ -66,13 +66,18 @@ module MrPoole
     def handle_unpublish
       options = OpenStruct.new
       opt_parser = OptionParser.new do |opts|
-        # eventually there will be options...not yet
+        opts.on('-p', '--keep-post', "Do not delete post") do |p|
+          options.keep_post = p
+        end
+        opts.on('-t', '--keep-timestamp', "Keep the existing timestamp") do |t|
+          options.keep_timestamp = t
+        end
       end
       opt_parser.parse! @params
 
       path = @params.first
       @helper.unpublish_usage unless path
-      fn = @commands.unpublish(path)
+      fn = @commands.unpublish(path, options)
       puts fn
     end
 
