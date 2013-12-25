@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.4.2 (2013-12-25)
+
+- Change gemspec development dependencies (wouldn't release a new version
+  except that the gemspec changed).
+
 ### v0.4.1 (2013-12-25)
 
 - Add custom source dir detection from _config.yml (Merry Christmas!)
