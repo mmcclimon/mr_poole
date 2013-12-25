@@ -35,7 +35,31 @@ def make_jekyll_dir
   Dir.mkdir(posts)
   Dir.chdir(newdir)
   return olddir, newdir
+end
 
+def make_irregular_jekyll_dir
+  olddir = Dir.pwd()
+  newdir = Dir.mktmpdir('jekyll')
+  srcdir = File.join(newdir, 'src')
+  posts = File.join(srcdir, '_posts')
+  Dir.mkdir(srcdir)
+  Dir.mkdir(posts)
+  Dir.chdir(newdir)
+  # ensure write custom yml file
+  write_config_file_custom_src_dir
+  return olddir, newdir
+end
+
+# make a dir with a custom source dir but with no _posts directory
+def make_bad_irregular_jekyll_dir
+  olddir = Dir.pwd()
+  newdir = Dir.mktmpdir('jekyll')
+  srcdir = File.join(newdir, 'src')
+  Dir.mkdir(srcdir)
+  Dir.chdir(newdir)
+  # ensure write custom yml file
+  write_config_file_custom_src_dir
+  return olddir, newdir
 end
 
 def clean_tmp_files(tmpdir, restoredir)
@@ -128,5 +152,11 @@ def write_config_file_custom_extension
   c = File.open('_config.yml', 'w')
   c.puts 'poole:'
   c.puts "  default_extension: textile"
+  c.close
+end
+
+def write_config_file_custom_src_dir
+  c = File.open('_config.yml', 'w')
+  c.puts 'source: src'
   c.close
 end

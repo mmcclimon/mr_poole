@@ -17,6 +17,23 @@ module MrPoole
         expect { cli = CLI.new([]) }.not_to raise_error
         clean_tmp_files(tmpdir, olddir)
       end
+
+      context 'with _config.yml' do
+
+        it "should not exit if _config.yml has 'source' key" do
+          olddir, tmpdir = make_irregular_jekyll_dir
+          expect { cli = CLI.new([]) }.not_to raise_error
+          clean_tmp_files(tmpdir, olddir)
+        end
+
+        it "should exit if custom src dir doesn't have _posts dir" do
+          olddir, tmpdir = make_bad_irregular_jekyll_dir
+          expect {
+            capture_stdout { cli = CLI.new([]) }
+          }.to raise_error(SystemExit)
+          clean_tmp_files(tmpdir, olddir)
+        end
+      end
     end   # context determine jekyll dir
 
     context 'no correct action' do

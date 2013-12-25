@@ -1,3 +1,5 @@
+require 'yaml'
+
 module MrPoole
   class Helper
 
@@ -8,7 +10,15 @@ module MrPoole
     # Check for a _posts directory in current directory
     # If we don't find one, puke an error message and die
     def ensure_jekyll_dir
-      unless File.exists?('./_posts')
+      ok = File.exists?('./_posts')
+
+      # if it doesn't exist, check for a custom source dir in _config.yml
+      if !ok
+        check_custom_src_dir
+        ok = File.exists?('./_posts')
+      end
+
+      if !ok
         puts 'ERROR: Cannot locate _posts directory. Double check to make sure'
         puts '       that you are in a jekyll directory.'
         exit
@@ -126,6 +136,23 @@ module MrPoole
       puts '  -p, --keep-post       Do not delete the existing post'
       puts '  -t, --keep-timestamp  Do not update the existing timestamp'
       exit
+    end
+
+    # Private methods
+    #################
+    private
+
+    # If a user has a custom 'source' defined in their _config.yml, change
+    # to that directory for everything else
+    def check_custom_src_dir
+      srcdir = nil
+
+      if File.exists?('_config.yml')
+        yaml = YAML.load(File.read('_config.yml'))
+        srcdir = yaml['source']
+      end
+
+      Dir.chdir(srcdir) if srcdir
     end
 
   end
