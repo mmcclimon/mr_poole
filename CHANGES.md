@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.4.1 (2013-12-25)
+
+- Add custom source dir detection from _config.yml (Merry Christmas!)
+
 ### v0.4.0 (2013-09-28)
 
 - Add options for unpublish
