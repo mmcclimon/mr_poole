@@ -1,5 +1,11 @@
 # Changelog
 
+### v0.4.3 (2014-01-28)
+
+- Make echoed paths reflect custom source directory. Now you can `poole post
+  "post title" | vim` even if you are using a custom source directory in your
+  `_config.yml`.
+
 ### v0.4.2 (2013-12-25)
 
 - Change gemspec development dependencies (wouldn't release a new version
