@@ -1,4 +1,5 @@
 require 'yaml'
+require 'pathname'
 
 module MrPoole
   class Helper
@@ -7,22 +8,35 @@ module MrPoole
       # nothing to do here
     end
 
-    # Check for a _posts directory in current directory
-    # If we don't find one, puke an error message and die
+    # Check for a _posts directory in current directory. If there's not one,
+    # check for a _config.yml and look for a custom src directory.  If we
+    # don't find one, puke an error message and die. If we do, return the name
+    # of the directory
     def ensure_jekyll_dir
+      @orig_dir = Dir.pwd
+      start_path = Pathname.new(@orig_dir)
+
       ok = File.exists?('./_posts')
+      new_path = nil
 
       # if it doesn't exist, check for a custom source dir in _config.yml
       if !ok
-        check_custom_src_dir
+        check_custom_src_dir!
         ok = File.exists?('./_posts')
+        new_path = Pathname.new(Dir.pwd)
       end
 
-      if !ok
+      if ok
+        return (new_path ? new_path.relative_path_from(start_path) : '.')
+      else
         puts 'ERROR: Cannot locate _posts directory. Double check to make sure'
         puts '       that you are in a jekyll directory.'
         exit
       end
+    end
+
+    def restore_orig_directory
+      Dir.chdir(@orig_dir)
     end
 
     def ensure_open_struct(opts)
@@ -144,7 +158,7 @@ module MrPoole
 
     # If a user has a custom 'source' defined in their _config.yml, change
     # to that directory for everything else
-    def check_custom_src_dir
+    def check_custom_src_dir!
       srcdir = nil
 
       if File.exists?('_config.yml')

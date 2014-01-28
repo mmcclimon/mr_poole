@@ -68,7 +68,7 @@ module MrPoole
 
     # Todo make this take a path instead?
     #
-    # @param draftpath [String] path to the draft
+    # @param draftpath [String] path to the draft, relative to source directory
     # @option options :keep_draft [Boolean] if true, keep the draft file
     # @option options :keep_timestamp [Boolean] if true, don't change the timestamp
     def publish(draftpath, opts={})

@@ -112,7 +112,7 @@ module MrPoole
         it 'echoes path to newly created post on success' do
           argv = ['post', 'post title']
           output = poole_no_stdout(argv).call.chomp
-          determined = Dir.glob("_posts/*.md").first
+          determined = Dir.glob("./_posts/*.md").first
           expect(output).to eq(determined)
         end
 
@@ -198,7 +198,7 @@ module MrPoole
         it 'echoes path to newly created post on success' do
           argv = ['draft', 'post title']
           output = poole_no_stdout(argv).call.chomp
-          determined = Dir.glob("_drafts/*.md").first
+          determined = Dir.glob("./_drafts/*.md").first
           expect(output).to eq(determined)
         end
       end   # context exit message
@@ -280,7 +280,7 @@ module MrPoole
         it 'echoes path to newly created post on success' do
           argv = ['publish', d_path]
           output = poole_no_stdout(argv).call.chomp
-          determined = Dir.glob("_posts/*.md").first
+          determined = Dir.glob("./_posts/*.md").first
           expect(output).to eq(determined)
         end
       end   # context exit message
@@ -301,7 +301,7 @@ module MrPoole
           expect(content).to match(/^date: \d{4}-\d{2}-\d{2}$/)
         end
       end
-    end
+    end   # describe publish
 
     describe "action 'unpublish'" do
       let(:p_path) { Commands.new.post({:title => 'test_post'}) }
@@ -341,7 +341,7 @@ module MrPoole
         it 'echoes path to newly created post on success' do
           argv = ['unpublish', p_path]
           output = poole_no_stdout(argv).call.chomp
-          determined = Dir.glob("_drafts/*.md").first
+          determined = Dir.glob("./_drafts/*.md").first
           expect(output).to eq(determined)
         end
       end   # context exit message
@@ -404,5 +404,57 @@ module MrPoole
 
     end
 
+    context 'with custom source directory' do
+      before(:each) do
+        @olddir, @tmpdir = make_irregular_jekyll_dir
+      end
+
+      after(:each) { clean_tmp_files(@tmpdir, @olddir) }
+
+      it "'post' echoes correct path with custom source directory" do
+        argv = ['post', 'post_title']
+        output = poole_no_stdout(argv).call.chomp
+        determined = Dir.glob("src/_posts/*.md").first
+        expect(output).to eq(determined)
+      end
+
+      it "'draft' echoes correct path with custom source directory" do
+        argv = ['draft', 'post_title']
+        output = poole_no_stdout(argv).call.chomp
+        determined = Dir.glob("src/_drafts/*.md").first
+        expect(output).to eq(determined)
+      end
+
+      it "'publish' echoes correct path with custom source directory" do
+        # make a draft first
+        Dir.chdir('src')
+        draft_path = Commands.new.draft({:title => 'test_draft'})
+        Dir.chdir('..')
+
+        argv = ['publish', draft_path]
+        output = poole_no_stdout(argv).call.chomp
+
+        determined = Dir.glob("src/_posts/*.md").first
+        expect(output).to eq(determined)
+      end
+
+      it "'unpublish' echoes correct path with custom source directory" do
+        olddir, tmpdir = make_irregular_jekyll_dir
+
+        # make a post in the src directory
+        Dir.chdir('src')
+        post_path = Commands.new.post({:title => 'touch_post'})
+        Dir.chdir('..')
+
+        argv = ['unpublish', post_path]
+        output = poole_no_stdout(argv).call.chomp
+
+        determined = Dir.glob("src/_drafts/*.md").first
+        expect(output).to eq(determined)
+
+        clean_tmp_files(tmpdir, olddir)
+      end
+
+    end
   end
 end

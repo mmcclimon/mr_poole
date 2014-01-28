@@ -42,8 +42,10 @@ def make_irregular_jekyll_dir
   newdir = Dir.mktmpdir('jekyll')
   srcdir = File.join(newdir, 'src')
   posts = File.join(srcdir, '_posts')
+  drafts = File.join(srcdir, '_drafts')
   Dir.mkdir(srcdir)
   Dir.mkdir(posts)
+  Dir.mkdir(drafts)
   Dir.chdir(newdir)
   # ensure write custom yml file
   write_config_file_custom_src_dir

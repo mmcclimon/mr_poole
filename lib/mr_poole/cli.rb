@@ -6,7 +6,7 @@ module MrPoole
 
     def initialize(args)
       @helper = Helper.new
-      @helper.ensure_jekyll_dir
+      @src_dir = @helper.ensure_jekyll_dir
 
       @params = args
       @config = Config.new
@@ -25,6 +25,8 @@ module MrPoole
       when '-v' then @helper.version_statement
       else @helper.gen_usage
       end
+
+      @helper.restore_orig_directory
     end
 
     def handle_post
@@ -33,7 +35,7 @@ module MrPoole
 
       @helper.post_usage unless options.title
       fn = @commands.post(options)
-      puts fn
+      puts "#{@src_dir}/#{fn}"
     end
 
     def handle_draft
@@ -42,7 +44,7 @@ module MrPoole
 
       @helper.draft_usage unless options.title
       fn = @commands.draft(options)
-      puts fn
+      puts "#{@src_dir}/#{fn}"
     end
 
     def handle_publish
@@ -60,7 +62,7 @@ module MrPoole
       path = @params.first
       @helper.publish_usage unless path
       fn = @commands.publish(path, options)
-      puts fn
+      puts "#{@src_dir}/#{fn}"
     end
 
     def handle_unpublish
@@ -78,7 +80,7 @@ module MrPoole
       path = @params.first
       @helper.unpublish_usage unless path
       fn = @commands.unpublish(path, options)
-      puts fn
+      puts "#{@src_dir}/#{fn}"
     end
 
     def do_creation_options
