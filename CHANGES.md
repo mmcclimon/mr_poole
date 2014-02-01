@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.5.0 (2014-01-31)
+
+- Add word_separator configuration option (to use hyphens). Thanks to [Harry
+  Schwartz](http://github.com/hrs) for the inspiration!
+
 ### v0.4.3 (2014-01-28)
 
 - Make echoed paths reflect custom source directory. Now you can `poole post
