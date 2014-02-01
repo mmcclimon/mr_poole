@@ -8,6 +8,7 @@ module MrPoole
       if File.exists?('_config.yml')
         yaml = YAML.load(File.read('_config.yml'))
         @config = OpenStruct.new(yaml["poole"])
+        @config.srcdir = yaml['source'] if yaml['source']
       else
         @config = OpenStruct.new
       end
