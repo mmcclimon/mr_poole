@@ -4,8 +4,10 @@ require 'pathname'
 module MrPoole
   class Helper
 
+    attr_accessor :config
+
     def initialize
-      # nothing to do here
+      @config = Config.new
     end
 
     # Check for a _posts directory in current directory. If there's not one,
@@ -70,7 +72,8 @@ module MrPoole
     # Given a post title (mixed case, spaces, etc.), generates a slug for
     # This clobbers any non-ASCII text (TODO don't do that)
     def get_slug_for(title)
-      title.downcase.gsub(/[^a-z0-9_\s-]/, '').gsub(/\s+/, '_')
+      word_sep = @config.word_separator || '_'
+      title.downcase.gsub(/[^a-z0-9_\s-]/, '').gsub(/\s+/, word_sep)
     end
 
     def get_date_stamp
@@ -159,13 +162,7 @@ module MrPoole
     # If a user has a custom 'source' defined in their _config.yml, change
     # to that directory for everything else
     def check_custom_src_dir!
-      srcdir = nil
-
-      if File.exists?('_config.yml')
-        yaml = YAML.load(File.read('_config.yml'))
-        srcdir = yaml['source']
-      end
-
+      srcdir = @config.srcdir
       Dir.chdir(srcdir) if srcdir
     end
 

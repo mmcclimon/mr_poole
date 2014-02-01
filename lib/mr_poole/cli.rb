@@ -9,7 +9,7 @@ module MrPoole
       @src_dir = @helper.ensure_jekyll_dir
 
       @params = args
-      @config = Config.new
+      @config = @helper.config
 
       ext = @config.default_extension || 'md'
       @commands = Commands.new(ext)

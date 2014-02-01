@@ -150,6 +150,12 @@ def write_config_file_custom_layout
   filename
 end
 
+def write_config_file_custom_src_dir
+  c = File.open('_config.yml', 'w')
+  c.puts 'source: src'
+  c.close
+end
+
 def write_config_file_custom_extension
   c = File.open('_config.yml', 'w')
   c.puts 'poole:'
@@ -157,8 +163,9 @@ def write_config_file_custom_extension
   c.close
 end
 
-def write_config_file_custom_src_dir
+def write_config_file_custom_word_sep
   c = File.open('_config.yml', 'w')
-  c.puts 'source: src'
+  c.puts 'poole:'
+  c.puts '  word_separator: "-"'
   c.close
 end

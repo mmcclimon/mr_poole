@@ -190,6 +190,33 @@ module MrPoole
           expect(content).to match(/tags: testing/)
         end
       end   # context custom layout
+
+      # I'm not sure why I originally decided to test all the slug generation
+      # code in the draft section, but here we go anyway.
+      context 'with custom word_separator in config file' do
+        before(:each) { write_config_file_custom_word_sep }
+
+        it "should downcase and underscore title for slug" do
+          fn = c.draft({:title => "Test Post with Spaces"})
+          expect(fn).to match(/test-post-with-spaces[.]md/)
+        end
+
+        it "should remove non-word characters for slug" do
+          fn = c.draft({:title => "On (function() {}()) in JavaScript"})
+          expect(fn).to match(/on-function-in-javascript[.]md/)
+        end
+
+        it "explicit slug overrides custom word_separator" do
+          fn = c.draft({:title => "Test Draft", :slug => 'unique_slug'})
+          expect(fn).to match(/unique_slug[.]md$/)
+        end
+
+        it "should sub any weird characters in slug" do
+          fn = c.draft({:title => "Test Post with Spaces", :slug => "(stupid] {slüg/"})
+          expect(fn).to match(/stupid-slg[.]md/)
+        end
+
+      end   # end context custom word_separator
     end   # end describe draft
 
     describe "#publish" do
