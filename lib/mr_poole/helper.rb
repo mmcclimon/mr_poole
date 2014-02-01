@@ -93,7 +93,7 @@ module MrPoole
       puts ''
       puts "This is Mr. Poole, version #{MrPoole::VERSION}, running on ruby version #{RUBY_VERSION}"
       puts ''
-      puts 'Copyright 2013, Michael McClimon'
+      puts 'Copyright 2014, Michael McClimon'
       puts 'https://github.com/mmcclimon/mr_poole'
       puts ''
       exit

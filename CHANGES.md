@@ -1,5 +1,9 @@
 # Changelog
 
+### v0.5.1 (2014-01-31)
+
+- Bug fixes for older rubies (1.8.7, 1.9.2).
+
 ### v0.5.0 (2014-01-31)
 
 - Add word_separator configuration option (to use hyphens). Thanks to [Harry
