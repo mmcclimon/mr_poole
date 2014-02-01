@@ -30,7 +30,7 @@ immediately.
 Generates a timestamped post in your `_posts` directory, with the format
 `YYYY-MM-DD-slug.md`. With no options, will generate a slug based on your title
 by replacing spaces with underscores, downcasing, and removing any special
-character.
+character (see configuration section if you don't like the underscores).
 
 Options:
 
@@ -127,6 +127,7 @@ should provide a `poole` key, which may take the following subkeys:
 
 - `default_layout` - path to a default layout to use
 - `default_extension` - file extension to use
+- `word_separator` - character to use for slug generation
 
 Any options you provide in `_config.yml` will override poole's built-in
 defaults. Mr. Poole defaults to using Markdown (with extension "md"), and the
@@ -138,6 +139,17 @@ Note that command-line options override anything set in your config file. For
 example, if you have your default extension set to `textile`, but then pass the
 `--layout` flag to post/draft with a Markdown template, the generated post will
 use the Markdown extension.
+
+*Important!* If you want to use hyphens for the `word_separator` option, you'll
+need to escape it (because a single dash is the beginning a YAML bulleted
+list). If you don't, the YAML parser will choke (I don't have any control over
+this).
+
+```
+poole:
+  word_separator: "-"   # correct
+  word_separator: -     # WRONG...don't do this!
+```
 
 
 ## To do

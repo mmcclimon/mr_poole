@@ -72,7 +72,8 @@ module MrPoole
     # Given a post title (mixed case, spaces, etc.), generates a slug for
     # This clobbers any non-ASCII text (TODO don't do that)
     def get_slug_for(title)
-      title.downcase.gsub(/[^a-z0-9_\s-]/, '').gsub(/\s+/, '_')
+      word_sep = @config.word_separator || '_'
+      title.downcase.gsub(/[^a-z0-9_\s-]/, '').gsub(/\s+/, word_sep)
     end
 
     def get_date_stamp

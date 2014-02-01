@@ -17,6 +17,13 @@ def write_config_file_no_poole
   f.close
 end
 
+def write_config_file_bad_yaml
+  c = File.open('_config.yml', 'w')
+  c.puts 'poole:'
+  c.puts '  word_separator: -'
+  c.close
+end
+
 module MrPoole
   describe Config do
     before(:each) { @olddir, @tmpdir = make_jekyll_dir }
@@ -38,6 +45,19 @@ module MrPoole
         write_config_file
         config = Config.new
         expect(config).not_to be_empty
+      end
+
+      it "exits with on bad YAML" do
+        write_config_file_bad_yaml
+        expect {
+          capture_stdout { cli = CLI.new([]) }
+        }.to raise_error(SystemExit)
+      end
+
+      it "prints a reasonable error message on bad YAML" do
+        write_config_file_bad_yaml
+        msg = aborted_poole_output(['post', 'title']).call
+        expect(msg).to match(/error.*yaml/i)
       end
     end
 
