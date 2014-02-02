@@ -48,16 +48,7 @@ module MrPoole
     end
 
     def handle_publish
-      options = OpenStruct.new
-      opt_parser = OptionParser.new do |opts|
-        opts.on('-d', '--keep-draft', "Keep the draft post") do |d|
-          options.keep_draft = d
-        end
-        opts.on('-t', '--keep-timestamp', "Keep the existing timestamp") do |t|
-          options.keep_timestamp = t
-        end
-      end
-      opt_parser.parse! @params
+      options = do_move_options(:publish)
 
       path = @params.first
       @helper.publish_usage unless path
@@ -66,16 +57,7 @@ module MrPoole
     end
 
     def handle_unpublish
-      options = OpenStruct.new
-      opt_parser = OptionParser.new do |opts|
-        opts.on('-p', '--keep-post', "Do not delete post") do |p|
-          options.keep_post = p
-        end
-        opts.on('-t', '--keep-timestamp', "Keep the existing timestamp") do |t|
-          options.keep_timestamp = t
-        end
-      end
-      opt_parser.parse! @params
+      options = do_move_options(:unpublish)
 
       path = @params.first
       @helper.unpublish_usage unless path
@@ -104,6 +86,29 @@ module MrPoole
       end
 
       options.layout ||= @config.default_layout
+
+      opt_parser.parse! @params
+      options
+    end
+
+    # pass a symbol, either :publish or :unpublish
+    def do_move_options(type)
+      options = OpenStruct.new
+      opt_parser = OptionParser.new do |opts|
+        if type == :publish
+          opts.on('-d', '--keep-draft', "Keep draft post") do |d|
+            options.keep_draft = d
+          end
+        else
+          opts.on('-p', '--keep-post', "Do not delete post") do |p|
+            options.keep_post = p
+          end
+        end
+
+        opts.on('-t', '--keep-timestamp', "Keep existing timestamp") do |t|
+          options.keep_timestamp = t
+        end
+      end
 
       opt_parser.parse! @params
       options
