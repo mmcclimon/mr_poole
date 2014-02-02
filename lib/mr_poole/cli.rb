@@ -30,38 +30,40 @@ module MrPoole
     end
 
     def handle_post
-      options = do_creation_options
-      options.title ||= @params.first
-
-      @helper.post_usage unless options.title
-      fn = @commands.post(options)
-      puts "#{@src_dir}/#{fn}"
+      do_create('post')
     end
 
     def handle_draft
-      options = do_creation_options
-      options.title ||= @params.first
-
-      @helper.draft_usage unless options.title
-      fn = @commands.draft(options)
-      puts "#{@src_dir}/#{fn}"
+      do_create('draft')
     end
 
     def handle_publish
-      options = do_move_options(:publish)
-
-      path = @params.first
-      @helper.publish_usage unless path
-      fn = @commands.publish(path, options)
-      puts "#{@src_dir}/#{fn}"
+      do_move('publish')
     end
 
     def handle_unpublish
-      options = do_move_options(:unpublish)
+      do_move('unpublish')
+    end
 
+    private
+
+    # action is a string, either 'post' or 'draft'
+    def do_create(action)
+      options = do_creation_options
+      options.title ||= @params.first
+
+      @helper.send("#{action}_usage") unless options.title
+      fn = @commands.send(action, options)
+      puts "#{@src_dir}/#{fn}"
+    end
+
+    # action is a string, either 'publish' or 'unpublish'
+    def do_move(action)
+      options = do_move_options(action)
       path = @params.first
-      @helper.unpublish_usage unless path
-      fn = @commands.unpublish(path, options)
+
+      @helper.send("#{action}_usage") unless path
+      fn = @commands.send(action, path, options)
       puts "#{@src_dir}/#{fn}"
     end
 
@@ -91,11 +93,11 @@ module MrPoole
       options
     end
 
-    # pass a symbol, either :publish or :unpublish
+    # pass a string, either publish or unpublish
     def do_move_options(type)
       options = OpenStruct.new
       opt_parser = OptionParser.new do |opts|
-        if type == :publish
+        if type == 'publish'
           opts.on('-d', '--keep-draft', "Keep draft post") do |d|
             options.keep_draft = d
           end
