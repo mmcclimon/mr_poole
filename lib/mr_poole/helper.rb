@@ -89,6 +89,10 @@ module MrPoole
       exit
     end
 
+    def open_in_editor(path)
+      `#{@config.editor} #{path}` if @config.editor # Open the new post in an external editor, if configured
+    end
+
     def version_statement
       puts ''
       puts "This is Mr. Poole, version #{MrPoole::VERSION}, running on ruby version #{RUBY_VERSION}"

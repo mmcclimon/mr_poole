@@ -34,7 +34,7 @@ module MrPoole
       f = File.open(path, "w")
       f.write(head)
       f.close
-
+      @helper.open_in_editor(path) # open file if config key set
       path    # return the path, in case we want to do anything useful
     end
 
@@ -62,7 +62,7 @@ module MrPoole
       f = File.open(path, "w")
       f.write(head)
       f.close
-
+      @helper.open_in_editor(path) # open file if config key set
       path    # return the path, in case we want to do anything useful
     end
 

@@ -21,7 +21,8 @@ Mr. Poole is primarily a command-line application: the gem installs an
 executable called `poole` in your path. It has four subcommands: post, draft,
 publish, and unpublish. All four of these commands echo a filename to STDOUT,
 so you can do something like `poole post "Title" | vim` and start editing
-immediately.
+immediately. Alternatively, you can also set an external editor in your `_config.yml` 
+file to open all new posts and drafts (see [Configuration](#configuration)).
 
 ### Post
 
@@ -128,6 +129,7 @@ should provide a `poole` key, which may take the following subkeys:
 - `default_layout` - path to a default layout to use
 - `default_extension` - file extension to use
 - `word_separator` - character to use for slug generation
+- `editor` - external editor to automatically open new posts in
 
 Any options you provide in `_config.yml` will override poole's built-in
 defaults. Mr. Poole defaults to using Markdown (with extension "md"), and the
