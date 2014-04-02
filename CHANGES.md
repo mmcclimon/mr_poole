@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.6.0 (2014-04-02)
+
+- Ability to open new posts in editor specified in config file. Thanks
+  [qrohlf](//github.com/qrohlf)!
+
 ### v0.5.1 (2014-01-31)
 
 - Bug fixes for older rubies (1.8.7, 1.9.2).
