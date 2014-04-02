@@ -89,6 +89,22 @@ module MrPoole
       exit
     end
 
+    def open_in_editor(path)
+      # don't do anything if the user hasn't explicitly enabled the feature
+      return unless @config.auto_open
+
+      if editor = ENV['EDITOR']
+        `#{editor} #{path}`
+      else
+        puts "You have enabled the auto_open feature in your config.yml,"
+        puts "but have no editor configured."
+        puts ''
+        puts "Please set your $EDITOR environment variable to the "
+        puts "editor that poole should use to open new posts/drafts."
+        puts ''
+      end
+    end
+
     def version_statement
       puts ''
       puts "This is Mr. Poole, version #{MrPoole::VERSION}, running on ruby version #{RUBY_VERSION}"
