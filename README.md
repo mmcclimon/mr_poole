@@ -125,7 +125,7 @@ them if you want to. This should get better in the future.
 You may also include directives for `poole` in Jekyll's `_config.yml` file. You
 should provide a `poole` key, which may take the following subkeys:
 
-- `default_layout` - path to a default layout to use
+- `default_layout` - layout to use by default or `false` for no layout at all
 - `default_extension` - file extension to use
 - `word_separator` - character to use for slug generation
 - `auto_open` - set to `true`to automatically open new posts in your `$EDITOR`
