@@ -1,4 +1,3 @@
-require 'rspec/autorun'
 require File.expand_path('../spec_helper', __FILE__)
 require File.expand_path('../../lib/mr_poole', __FILE__)
 
