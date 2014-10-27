@@ -77,7 +77,8 @@ module MrPoole
     end
 
     def get_date_stamp
-      Time.now.strftime("%Y-%m-%d")
+      format = @config.time_format || '%Y-%m-%d'
+      Time.now.strftime(format)
     end
 
     def get_time_stamp

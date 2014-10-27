@@ -128,6 +128,7 @@ should provide a `poole` key, which may take the following subkeys:
 - `default_layout` - path to a default layout to use
 - `default_extension` - file extension to use
 - `word_separator` - character to use for slug generation
+- `time_format` - a percent-formatted string suitable for passing to Ruby's [Time.strftime](http://www.ruby-doc.org/core-2.1.1/Time.html#method-i-strftime) method
 - `auto_open` - set to `true`to automatically open new posts in your `$EDITOR`
 
 Any options you provide in `_config.yml` will override poole's built-in
@@ -141,7 +142,10 @@ example, if you have your default extension set to `textile`, but then pass the
 `--layout` flag to post/draft with a Markdown template, the generated post will
 use the Markdown extension.
 
-*Important!* If you want to use hyphens for the `word_separator` option, you'll
+*Important!* Certain characters have special meaning in YAML, which means
+you'll need to be careful using certain options.
+
+If you want to use hyphens for the `word_separator` option, you'll
 need to escape it (because a single dash is the beginning a YAML bulleted
 list). If you don't, the YAML parser will choke (I don't have any control over
 this).
@@ -150,6 +154,17 @@ this).
 poole:
   word_separator: "-"   # correct
   word_separator: -     # WRONG...don't do this!
+```
+
+Likewise, Ruby's
+[`strftime`](http://www.ruby-doc.org/core-2.1.1/Time.html#method-i-strftime)
+uses percent-formatted strings. The percent sign is special in YAML, so you
+have to put the time format in quotation marks.
+
+```
+poole:
+  time_format: "%Y-%m-%d"   # correct
+  time_format: %Y-%m-%d     # WRONG...poole will exit
 ```
 
 

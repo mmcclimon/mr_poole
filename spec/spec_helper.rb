@@ -150,6 +150,13 @@ def write_config_file_custom_layout
   filename
 end
 
+def write_config_file_custom_timestamp
+  c = File.open('_config.yml', 'w')
+  c.puts 'poole:'
+  c.puts '  time_format: "%Y-%m-%d %H:%M:%S"'
+  c.close
+end
+
 def write_config_file_custom_src_dir
   c = File.open('_config.yml', 'w')
   c.puts 'source: src'

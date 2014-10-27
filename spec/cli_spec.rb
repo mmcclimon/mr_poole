@@ -155,6 +155,17 @@ module MrPoole
         end
       end   # default layout in config
 
+      context 'custom time_format in config file' do
+        before(:each) { write_config_file_custom_timestamp }
+
+        it 'overrides default timestamp' do
+          argv = ['post', 'post title']
+          new_file = poole_no_stdout(argv).call.chomp
+          content = File.open(new_file, 'r').read
+          expect(content).to match(/date: \d{4}-\d{2}-\d{2} \d\d:\d\d:\d\d/)
+        end
+      end   # custom time format in config
+
     end   # end describe post
 
     describe "action 'draft'" do
