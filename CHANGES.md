@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.7.0 (2014-10-26)
+
+- Ability to create a custom date/time stamp via the time_format option in
+  the config.
+
 ### v0.6.0 (2014-04-02)
 
 - Ability to open new posts in editor specified in config file. Thanks
