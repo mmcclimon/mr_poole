@@ -221,7 +221,7 @@ module MrPoole
       it 'updates timestamp in actual file' do
         post = c.publish(d_path)
         content = File.open(post, 'r').read
-        expect(content).to match(/date: #{date_regex} \d{2}:\d{2}\n/)
+        expect(content).to match(/date: #{date_regex} \d{2}:\d{2} [A-Z]{3}\n/)
       end
 
       it 'copies contents of draft into post' do

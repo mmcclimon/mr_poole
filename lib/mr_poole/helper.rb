@@ -82,7 +82,7 @@ module MrPoole
     end
 
     def get_time_stamp
-      Time.now.strftime("%H:%M")
+      Time.now.strftime("%H:%M %Z")
     end
 
     def bad_path(path)
