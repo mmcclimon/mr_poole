@@ -1,5 +1,10 @@
 # Changelog
 
+### v0.8.0 (2015-04-26)
+
+- Poole now includes the local time zone in the generated post metadata. Thank
+  you [Max Jacobson](//github.com/maxjacobson)!
+
 ### v0.7.0 (2014-10-26)
 
 - Ability to create a custom date/time stamp via the time_format option in
