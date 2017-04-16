@@ -1,4 +1,3 @@
-require 'rspec/autorun'
 require File.expand_path('../spec_helper', __FILE__)
 require File.expand_path('../../lib/mr_poole', __FILE__)
 
@@ -300,7 +299,7 @@ module MrPoole
         it 'should keep draft post if called with --keep-draft' do
           argv = ['publish', '--keep-draft', d_path]
           poole_no_stdout(argv).call
-          expect(File.exists?(d_path)).to be_true
+          expect(File.exists?(d_path)).to be true
         end
       end
 
@@ -361,13 +360,13 @@ module MrPoole
         it 'should not delete the post if called with --keep-post' do
           argv = ['unpublish', '--keep-post', p_path]
           poole_no_stdout(argv).call
-          expect(File.exists?(p_path)).to be_true
+          expect(File.exists?(p_path)).to be true
         end
 
         it 'should not delete the post if called with -p' do
           argv = ['unpublish', '-p', p_path]
           poole_no_stdout(argv).call
-          expect(File.exists?(p_path)).to be_true
+          expect(File.exists?(p_path)).to be true
         end
       end
 

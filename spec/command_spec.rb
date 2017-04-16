@@ -1,5 +1,4 @@
 # encoding: UTF-8
-require 'rspec/autorun'
 require File.expand_path('../spec_helper', __FILE__)
 require File.expand_path('../../lib/mr_poole', __FILE__)
 
@@ -15,7 +14,7 @@ module MrPoole
       context 'title only' do
         it "creates a new post in the _posts directory" do
           fn = c.post({:title => "test_post"})
-          expect(File.exists?(fn)).to be_true
+          expect(File.exists?(fn)).to be true
         end
 
         it "returns path to the newly created post" do
@@ -107,7 +106,7 @@ module MrPoole
       context 'title only' do
         it "creates a _drafts directory" do
           c.draft({:title => 'draft post'})
-          expect(File.exists?('_drafts')).to be_true
+          expect(File.exists?('_drafts')).to be true
         end
 
         it "returns path to the newly created draft" do
@@ -118,7 +117,7 @@ module MrPoole
 
         it "creates a new draft in the _drafts directory" do
           fn = c.draft({:title => 'draft post'})
-          expect(File.exists?(fn)).to be_true
+          expect(File.exists?(fn)).to be true
         end
 
         it "creates a non-timestamped draft" do
@@ -208,7 +207,7 @@ module MrPoole
 
       it 'removes file in the _drafts folder' do
         c.publish(d_path)
-        expect(File.exist?(d_path)).to be_false
+        expect(File.exist?(d_path)).to be false
       end
 
       it 'creates post with matching slug' do
@@ -247,7 +246,7 @@ module MrPoole
 
       it 'creates a _drafts directory' do
         c.unpublish(p_path)
-        expect(File.exists?('_drafts')).to be_true
+        expect(File.exists?('_drafts')).to be true
       end
 
       it 'creates an untimestamped draft in the _drafts folder' do
@@ -257,7 +256,7 @@ module MrPoole
 
       it 'removes file in the _posts folder' do
         c.unpublish(p_path)
-        expect(File.exist?(p_path)).to be_false
+        expect(File.exist?(p_path)).to be false
       end
 
       it 'creates draft with matching slug' do

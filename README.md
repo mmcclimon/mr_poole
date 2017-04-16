@@ -125,7 +125,7 @@ them if you want to. This should get better in the future.
 You may also include directives for `poole` in Jekyll's `_config.yml` file. You
 should provide a `poole` key, which may take the following subkeys:
 
-- `default_layout` - path to a default layout to use
+- `default_layout` - layout to use by default or `false` for no layout at all
 - `default_extension` - file extension to use
 - `word_separator` - character to use for slug generation
 - `time_format` - a percent-formatted string suitable for passing to Ruby's [Time.strftime](http://www.ruby-doc.org/core-2.1.1/Time.html#method-i-strftime) method
